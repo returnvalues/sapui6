@@ -125,6 +125,8 @@ UI BASIC TEMPLATES
 </li>
 </ul>
 
+(The MIT License)
+
 Copyright (c) 2015 ReturnValues <sapui6@returnvalues.com>
 
 Permission is hereby granted, free of charge, to any person
