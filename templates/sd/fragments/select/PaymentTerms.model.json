@@ -1,0 +1,14 @@
+{
+	"PaymentTerms" : [
+		{"ZTERM":"0001", "TEXT1":"Payable immediately Due net"},
+		{"ZTERM":"0002", "TEXT1":"within 14 days 2 % cash discount"},
+		{"ZTERM":"0003", "TEXT1":"within 14 days 3 % cash discount"},
+		{"ZTERM":"0004", "TEXT1":"Payable immediately Due net"},
+		{"ZTERM":"0006", "TEXT1":"Before End of the month 4 % cash discount"},
+		{"ZTERM":"NT30", "TEXT1":"Net due in 30 days"}
+	]
+}
+
+
+
+

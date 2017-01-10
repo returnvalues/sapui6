@@ -1,0 +1,20 @@
+{
+	"ComboBoxData" : [
+		{"text" : "ComboBox-Item 1", "key" : "1"},
+		{"text" : "ComboBox-Item 2", "key" : "2"},
+		{"text" : "ComboBox-Item 3", "key" : "3"}
+	],
+
+	"SalesOrder" : {
+		"VBELN" : "13869",
+		"NETWR" : 34154.00,
+		"KUNNR" : "1321",
+		"Items" : [
+			{"BSTKD":"apo", "AUDAT":"20110221", "AUART":"OR", "VBELN":"13869", "POSNR":"10", "KUNNR":"1321", "MATNR":"P-104", "KWMENG":10, "NETWR":34154.00 , "WAERK":"EUR", "EDATU":"20110302", "ETENR":1, "BMENG":10, "ERNAM":"OBERBOERSCHG", "SPART":"1", "STATUS":"C", "STATU":"Completed", "VKGRP":"130", "VSTEL":"1000", "VTWEG":"10", "WADAT":"20110301", "WERKS":"1000", "PRSDT":"20110221", "ERDAT":"20110221", "ERZET":"10:55:06", "ARKTX":"Pumpe PRECISION 104", "NETPR":3415.40 , "VKORG":"1000", "VKBUR":"1030"},
+			{"BSTKD":"apo", "AUDAT":"20110221", "AUART":"OR", "VBELN":"13869", "POSNR":"20", "KUNNR":"1321", "MATNR":"P-103", "KWMENG":8, "NETWR":26587.20 , "WAERK":"EUR", "EDATU":"20110302", "ETENR":1, "BMENG":8, "ERNAM":"OBERBOERSCHG", "SPART":"1", "STATUS":"C", "STATU":"Completed", "VKGRP":"130", "VSTEL":"1000", "VTWEG":"10", "WADAT":"20110301", "WERKS":"1000", "PRSDT":"20110221", "ERDAT":"20110221", "ERZET":"10:54:58", "ARKTX":"Pumpe PRECISION 103", "NETPR":3323.40 , "VKORG":"1000", "VKBUR":"1030"},
+			{"BSTKD":"apo", "AUDAT":"20110221", "AUART":"OR", "VBELN":"13869", "POSNR":"30", "KUNNR":"1321", "MATNR":"P-102", "KWMENG":12, "NETWR":36445.20 , "WAERK":"EUR", "EDATU":"20110302", "ETENR":1, "BMENG":12, "ERNAM":"OBERBOERSCHG", "SPART":"1", "STATUS":"C", "STATU":"Completed", "VKGRP":"130", "VSTEL":"1000", "VTWEG":"10", "WADAT":"20110301", "WERKS":"1000", "PRSDT":"20110221", "ERDAT":"20110221", "ERZET":"10:54:50", "ARKTX":"Pumpe PRECISION 102", "NETPR":3037.10 , "VKORG":"1000", "VKBUR":"1030"}
+		]
+	}
+}
+
+                    

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title></title>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../../../../css/Accordion.css">
+	<style>
+	.sapUiDlgMaximizeBtn {
+		background-image: url(../../../../img/dialog/Maximize.png) !important;
+	}
+
+	.sapUiDlgMaximizeBtn:hover,
+	.sapUiDlgMaximizeBtn:focus {
+		background-image: url(../../../../img/dialog/Maximize_hover.png) !important;
+	}
+
+	.sapUiDlgMaximizeBtn:active {
+		background-image: url(../../../../img/dialog/Maximize_hover.png) !important;
+	}
+
+	.sapUiDlgMinimizeBtn {
+		background-image: url(../../../../img/dialog/Minimize.png) !important;
+	}
+
+	.sapUiDlgMinimizeBtn:hover,
+	.sapUiDlgMinimizeBtn:focus {
+		background-image: url(../../../../img/dialog/Minimize_hover.png) !important;
+	}
+
+	.sapUiDlgMinimizeBtn:active {
+		background-image: url(../../../../img/dialog/Minimize_hover.png) !important;
+	}
+
+	.sapUiDlgPrevsizeBtn {
+		background-image: url(../../../../img/dialog/Prevsize.png) !important;
+	}
+
+	.sapUiDlgPrevsizeBtn:hover,
+	.sapUiDlgPrevsizeBtn:focus {
+		background-image: url(../../../../img/dialog/Prevsize_hover.png) !important;
+	}
+
+	.sapUiDlgPrevsizeBtn:active {
+		background-image: url(../../../../img/dialog/Prevsize_hover.png) !important;
+	}
+	</style>
+	<script
+		id='sap-ui-bootstrap'
+		type='text/javascript'
+		src='https://sapui5.netweaver.ondemand.com/resources/sap-ui-core.js'
+		data-sap-ui-xx-bindingSyntax="complex"
+		data-sap-ui-theme='sap_bluecrystal'
+		data-sap-ui-libs='sap.ui.layout, sap.ui.commons'
+		data-sap-ui-resourceroots='{
+			"view" : "./view",
+			"sapui6" : "../../../../sapui6-resources/sapui6"
+		}' >
+	</script>
+	
+	<script>
+
+		jQuery.sap.require("jquery.sap.resources");
+
+		var dialog = sap.ui.view({viewName:"view.Dialog", type:sap.ui.core.mvc.ViewType.JS});
+		dialog.placeAt("content");
+		
+	</script>
+
+</head>
+<body class='sapUiBody' id='content'>
+</body>
+</html>

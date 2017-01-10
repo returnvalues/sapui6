@@ -1,0 +1,27 @@
+.sapui6_accordion {
+
+}
+.sapui6_accordion .section {
+    margin-bottom: 2px;
+    background-color: #fff;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.sapui6_accordion .heading {
+    padding: 10px 15px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.sapui6_accordion .title {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 5px;
+    font-weight: bold;
+}
+.sapui6_accordion .body {
+    padding: 15px;
+}

@@ -1,0 +1,8 @@
+ [    
+      {"Email" : "john@doe.com", "Firstname" : "John", "Lastname" : "Doe", "Age" : 45, "Address" : "New York, USA", "Department":"Finance"},
+      {"Email" : "peter@smith.com", "Firstname" : "Peter", "Lastname" : "Smith", "Age" : 52, "Address" : "Paris, France", "Department":"Sales"},
+      {"Email" : "bond@007.com", "Firstname" : "James", "Lastname" : "Bond", "Age" : 35, "Address" : "Liverpool, UK", "Department":"Finance"},
+      {"Email" : "kim@compnay.com", "Firstname" : "Steve", "Lastname" : "Kim", "Age" : 38, "Address" : "London, UK", "Department":"Sales"},
+      {"Email" : "jacob@compnay.com", "Firstname" : "jacob", "Lastname" : "Iron", "Age" : 32, "Address" : "Paris, France", "Department":"Finance"},
+      {"Email" : "daniel@compnay.com", "Firstname" : "daniel", "Lastname" : "Macbeth", "Age" : 41, "Address" : "Liverpool, UK", "Department":"Sales"}
+]

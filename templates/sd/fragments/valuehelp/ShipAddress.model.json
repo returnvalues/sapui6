@@ -1,0 +1,10 @@
+{
+	"ShipAddress" : [
+			{"businessName":"A I S","address":"65809 Gratiot Ave","city":"Lenox","state":"MI","country":"USA","zip":"48050","phone":"586-727-7502","fax":""},
+			{"businessName":"A-i-d Parts Company","address":"1760 Route 8","city":"Glenshaw","state":"PA","country":"USA","zip":"15116","phone":"4404394000","fax":""},
+			{"businessName":"A. Crano Excavating","address":"1505 Industrial Parkway","city":"Akron","state":"OH","country":"USA","zip":"44310","phone":"330-630-1115","fax":""},
+			{"businessName":"A.p. O Horo","address":"3130 Belmont Ave.","city":"Youngstown","state":"OH","country":"USA","zip":"44504","phone":"330-233-3181","fax":""},
+			{"businessName":"Abbe Contracting","address":"5717 Unger Road","city":"Atwater","state":"OH","country":"USA","zip":"44201","phone":"330-807-6820","fax":""},
+			{"businessName":"Abdoo Wrecking","address":"835 Cty Road #181","city":"Fremont","state":"OH","country":"USA","zip":"43420","phone":"419-559-9186","fax":""}
+		]
+}

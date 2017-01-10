@@ -1,0 +1,6 @@
+{
+	"OrderType" : [
+		{"AUART":"OR", "BEZEI20":"Standard Order"},
+		{"AUART":"SO", "BEZEI20":"Rush Order"}
+	]
+}

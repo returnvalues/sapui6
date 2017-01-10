@@ -1,0 +1,34 @@
+{
+	"ComboBoxData" : [
+		{"text" : "ComboBox-Item 1", "key" : "1"},
+		{"text" : "ComboBox-Item 2", "key" : "2"},
+		{"text" : "ComboBox-Item 3", "key" : "3"}
+	],
+
+	"FormData" : {
+		"ComboBox" : "2",
+		"Date" : "",
+		"ValueHF" : "",
+		"ValueHFDesc" : "",
+		"Chk1" : false,
+		"Chk2" : true,
+		"Chk3" : false,
+		"Chk4" : false,
+		"Radio" : "Yes",
+		"Currency" : 0,
+		"Qty" : 0,
+		"Percent" : 0,
+		"Uppercase" : "",
+		"Lowercase" : "",
+		"Year" : "",
+		"Month" : "201409",
+		"Time" : "",
+		"Email" : "",
+		"URL" : "",
+		"TextField" : "",
+		"Slider" : 200,
+		"TextArea" : ""
+	}
+}
+
+                    

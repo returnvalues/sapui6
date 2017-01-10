@@ -1,0 +1,178 @@
+.sapui6_basicroadmap {
+	display: block;
+	list-style: none;
+	padding: 0px;
+	position: relative;
+	width: 100%;
+	margin: 10px;
+}
+
+.sapui6_basicroadmap li {
+	display: block;
+	float: left;
+	width: 25%;
+	text-align: center;
+	padding-left: 0;
+}
+.sapui6_basicroadmap li:first-child:before {
+	left: 50%;
+	max-width: 50%;
+}
+.sapui6_basicroadmap li:before {
+	border-top: 3px solid #55606E;
+	content: "";
+	display: block;
+	font-size: 0;
+	overflow: hidden;
+	position: relative;
+	top: 11px;
+	right: 1px;
+	width: 100%;
+	z-index: 1;
+}
+.sapui6_basicroadmap li:last-child:before {
+	max-width: 50%;
+	width: 50%;
+}
+.sapui6_basicroadmap>li>a {
+	color: #3276b1;
+	text-decoration: none;
+}
+.sapui6_basicroadmap li.active .step{
+	background: #0091d9;
+	color: #fff;
+	border: 3px solid #55606E;
+}
+.sapui6_basicroadmap li.active .step:hover{
+	background: #0091d9;
+	color: #fff;
+	border: 3px solid #55606E;
+	cursor: not-allowed;
+}
+.sapui6_basicroadmap li .step:hover{
+	background: #ff9999;
+	color: #fff;
+	border: 3px solid #55606E;
+	cursor: pointer;
+}
+.sapui6_basicroadmap li .step {
+	background: #B2B5B9;
+	color: #fff;
+	font-weight: 700;
+	padding: 7px 13px;
+	font-size: 15px;
+	border-radius: 50%;
+	border: 3px solid transparent;
+	line-height: normal;
+	position: relative;
+	text-align: center;
+	z-index: 2;
+	transition: all .1s linear 0s;
+}
+.sapui6_basicroadmap li .title {
+	color: #bfbfbf;
+	display: block;
+	font-size: 13px;
+	line-height: 15px;
+	max-width: 100%;
+	position: relative;
+	table-layout: fixed;
+	text-align: center;
+	top: 20px;
+	word-wrap: break-word;
+	z-index: 104;
+}
+.sapui6_basicroadmap li.active .title {
+	color: #2B3D53;
+}
+
+.sapui6_fuelroadmap {
+	width: 100%;
+	padding: 0;
+	margin: 10px;
+	list-style: none outside none;
+}
+.sapui6_fuelroadmap li:first-child {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border: 1px solid #ddd;
+}
+.sapui6_fuelroadmap li:last-child {
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border: 1px solid #ddd;
+}
+.sapui6_fuelroadmap li.active {
+	background: #0091d9;
+	color: #fff;
+	cursor: not-allowed;
+}
+.sapui6_fuelroadmap li.active:hover {
+	background: #0091d9;
+	color: #fff;
+}
+.sapui6_fuelroadmap li.past .chevron:before{
+	border-left: 14px solid #aaaaaa;
+}
+.sapui6_fuelroadmap li:hover {
+	background: #ff9999;
+	color: #fff;
+}
+.sapui6_fuelroadmap li:hover .chevron:before{
+	border-left: 14px solid #ff9999;
+}
+.sapui6_fuelroadmap li {
+	position: relative;
+	float: left;
+	height: 46px;
+	padding: 0 20px 0 30px;
+	margin: 0;
+	font-size: 16px;
+	line-height: 46px;
+	color: #999;
+	cursor: default;
+	background: #ededed;
+	border: 1px solid #ddd;
+	cursor: pointer;
+}
+
+.sapui6_fuelroadmap .badge {
+	display: inline-block;
+	min-width: 10px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: 700;
+	color: #fff;
+	line-height: 1;
+	vertical-align: baseline;
+	white-space: nowrap;
+	text-align: center;
+	background-color: #999;
+	border-radius: 10px;
+	margin-right: 8px;
+}
+.sapui6_fuelroadmap .chevron {
+	position: absolute;
+	top: 0;
+	right: -14px;
+	z-index: 1;
+	display: block;
+	border: 24px solid transparent;
+	border-right: 0;
+	border-left: 14px solid #d4d4d4;
+}
+
+.sapui6_fuelroadmap li.active .chevron:before {
+	border-left: 14px solid #0091d9;
+}
+.sapui6_fuelroadmap .chevron:before {
+	position: absolute;
+	top: -24px;
+	right: 1px;
+	display: block;
+	border: 24px solid transparent;
+	border-right: 0;
+	border-left: 14px solid #ededed;
+	content: "";
+}
+

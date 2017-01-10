@@ -1,0 +1,29 @@
+.sapui6_breadcrumb{
+	padding: 8px 15px;
+	list-style: none;
+	background-color: #f5f5f5;
+	border-radius: 4px;
+	margin: 10px 5px 10px 5px;
+}
+.sapui6_breadcrumb>li{
+	display: inline-block;
+	text-align: -webkit-match-parent;
+}
+.sapui6_breadcrumb>li+li:before {
+	padding: 0 5px;
+	color: #ccc;
+	content: "/\00a0";
+}
+.sapui6_breadcrumb>a{
+	color: #428bca;
+	text-decoration: none !important;
+}
+.sapui6_breadcrumb>.active>a {
+	color: #777;
+	text-decoration: none !important;
+}
+
+.sapui6_breadcrumb>.active>a:hover {
+	text-decoration: none;
+	cursor:not-allowed;
+}

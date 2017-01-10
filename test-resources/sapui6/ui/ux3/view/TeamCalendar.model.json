@@ -1,0 +1,28 @@
+{
+    "data" : [
+        {"id":"1000001","name":"Marlon Brando","date":"20150501","category":"A","dept_code":"D1001","dept_desc":"Finance"},
+        {"id":"1000001","name":"Marlon Brando","date":"20150507","category":"B","dept_code":"D1001","dept_desc":"Finance"},
+        {"id":"1000001","name":"Marlon Brando","date":"20150517","category":"C","dept_code":"D1001","dept_desc":"Finance"},
+        {"id":"1000002","name":"Al Pacino","date":"20150508","category":"C","dept_code":"D1001","dept_desc":"Finance"},
+        {"id":"1000002","name":"Al Pacino","date":"20150508","category":"D","dept_code":"D1001","dept_desc":"Finance"},
+        {"id":"1000002","name":"Al Pacino","date":"20150509","category":"B","dept_code":"D1001","dept_desc":"Finance"},
+        {"id":"1000002","name":"Al Pacino","date":"20150513","category":"A","dept_code":"D1001","dept_desc":"Finance"},
+        {"id":"1000003","name":"Robert De Niro","date":"20150513","category":"B","dept_code":"D1002","dept_desc":"Maintenance"},
+        {"id":"1000003","name":"Robert De Niro","date":"20150514","category":"B","dept_code":"D1002","dept_desc":"Maintenance"},
+        {"id":"1000003","name":"Robert De Niro","date":"20150515","category":"B","dept_code":"D1002","dept_desc":"Maintenance"},
+        {"id":"1000004","name":"Johnny Depp","date":"20150507","category":"C","dept_code":"D1002","dept_desc":"Maintenance"},
+        {"id":"1000004","name":"Johnny Depp","date":"20150517","category":"C","dept_code":"D1002","dept_desc":"Maintenance"},
+        {"id":"1000005","name":"Kevin Spacey","date":"20150508","category":"C","dept_code":"D1002","dept_desc":"Maintenance"},
+        {"id":"1000005","name":"Kevin Spacey","date":"20150515","category":"C","dept_code":"D1002","dept_desc":"Maintenance"},
+        {"id":"1000005","name":"Kevin Spacey","date":"20150515","category":"D","dept_code":"D1002","dept_desc":"Maintenance"},
+        {"id":"1000005","name":"Kevin Spacey","date":"20150515","category":"A","dept_code":"D1002","dept_desc":"Maintenance"},
+        {"id":"1000006","name":"Liam Neeson","date":"20150507","category":"C","dept_code":"D1002","dept_desc":"Maintenance"}
+    ],
+
+    "holiday" : [
+        {"desc":"Good Friday","date":"20150403","color":"red"},
+        {"desc":"Easter Monday","date":"20150406","color":"red"}
+    ]
+}
+
+                    

@@ -1,0 +1,46 @@
+.sapui6_toplist{
+	position: relative;
+	padding: 10px 15px 10px 15px;
+	list-style: none;
+	background-color: #ffffff;
+	border-radius: 4px;
+	margin: 10px 5px 10px 5px;
+	border: 1px solid #ddd;
+	font-size: 12px;
+}
+.sapui6_toplist>li{
+	text-align: -webkit-match-parent;
+	/*margin-left: 20px;*/
+	line-height: 30px;
+	border-bottom: 1px solid #ddd;
+}
+/*.sapui6_toplist>li:hover{
+	background-color: blue;
+}*/
+.sapui6_toplist>li>.orderNumber{
+	/*text-align: right;*/
+	width: 30px;
+	display: inline-block;
+	text-align: center;
+	color: #000068;
+	/*font-weight: bold;*/
+}
+.sapui6_toplist>li>.title{
+	overflow: hidden;
+	white-space: nowrap;
+	word-break: normal;
+	text-overflow: ellipsis;
+	color: #000;
+}
+.sapui6_toplist>li>.number{
+	position: absolute;
+	width: 140px;
+	right: 20px;
+	color: #333333;
+	text-align: right;
+}
+.sapui6_toplist>li>.number .icon{
+	margin-left:10px;
+	vertical-align: middle;
+}
+

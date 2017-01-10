@@ -1,0 +1,29 @@
+{
+	"LeftTableData" : [
+		{"column1":"0000001","column2":"Text Description"},
+		{"column1":"0000002","column2":"Text Description"},
+		{"column1":"0000003","column2":"Text Description"},
+		{"column1":"0000004","column2":"Text Description"},
+		{"column1":"0000005","column2":"Text Description"},
+		{"column1":"0000006","column2":"Text Description"},
+		{"column1":"0000007","column2":"Text Description"},
+		{"column1":"0000008","column2":"Text Description"},
+		{"column1":"0000009","column2":"Text Description"},
+		{"column1":"0000010","column2":"Text Description"},
+		{"column1":"0000011","column2":"Text Description"},
+		{"column1":"0000012","column2":"Text Description"},
+		{"column1":"0000013","column2":"Text Description"},
+		{"column1":"0000014","column2":"Text Description"},
+		{"column1":"0000015","column2":"Text Description"},
+		{"column1":"0000016","column2":"Text Description"},
+		{"column1":"0000017","column2":"Text Description"},
+		{"column1":"0000018","column2":"Text Description"},
+		{"column1":"0000019","column2":"Text Description"},
+		{"column1":"0000020","column2":"Text Description"}
+	],
+
+	"RightTableData" : [
+		{"column1":"0000001","column2":"Text Description"},
+		{"column1":"0000002","column2":"Text Description"}
+	]
+}

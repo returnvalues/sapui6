@@ -1,0 +1,35 @@
+.sapui6_sm {
+    /*background-color: #fff !important;
+    border: 1px solid #ddd;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);*/
+}
+.sapui6_sm-heading {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    font-weight: bold !important;
+}
+.sapui6_sm-body {
+    /*width: 100%;*/
+    /*padding: 15px;*/
+    background-color: transparent !important;
+}
+.sapui6_sm-btn-right {
+    float: right!important;
+}
+.sapui6_sm-list-group{
+    display: block;
+    list-style-type: disc;
+    padding: 0px;
+    margin-top: 0px;
+    z-index: 999;
+}
+.sapui6_sm-list-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    text-align: -webkit-match-parent;
+}

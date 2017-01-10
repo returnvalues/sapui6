@@ -1,0 +1,26 @@
+{
+	"Customer" : [
+			{"KUNNR":"1000001","NAME1":"3m Co"},
+			{"KUNNR":"1000002","NAME1":"Alcoa Inc"},
+			{"KUNNR":"1000003","NAME1":"Altria Group Inc"},
+			{"KUNNR":"1000004","NAME1":"American Express Company"},
+			{"KUNNR":"1000005","NAME1":"American International Group Inc"},
+			{"KUNNR":"1000006","NAME1":"AT&T Inc"},
+			{"KUNNR":"1000007","NAME1":"Boeing Co."},
+			{"KUNNR":"1000008","NAME1":"Caterpillar Inc."},
+			{"KUNNR":"1000009","NAME1":"Citigroup"},
+			{"KUNNR":"1000010","NAME1":"Exxon Mobil Gorp"},
+			{"KUNNR":"1000011","NAME1":"General Electric Company"},
+			{"KUNNR":"1000012","NAME1":"General Motors Corporation"},
+			{"KUNNR":"1000013","NAME1":"Hewlett-Packard Co."},
+			{"KUNNR":"1000014","NAME1":"Honeywell Intl Inc"},
+			{"KUNNR":"1000015","NAME1":"Intel Corporation"},
+			{"KUNNR":"1000016","NAME1":"International Business Machines"},
+			{"KUNNR":"1000017","NAME1":"Johnson & Johnson"},
+			{"KUNNR":"1000018","NAME1":"JP Morgan & Chase & Co"},
+			{"KUNNR":"1000019","NAME1":"McDonalds"},
+			{"KUNNR":"1000020","NAME1":"Microsoft Corporation"},
+			{"KUNNR":"1000021","NAME1":"Pfizer Inc"},
+			{"KUNNR":"1000022","NAME1":"The Coca-Cola Company"}
+		]
+}

@@ -1,0 +1,86 @@
+.sapui6_mypicker {
+    width: 190px;
+    height: 168px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #cdcdcd;
+    background: #fff;
+}
+.sapui6_mypicker>.head {
+    font-size: 14px;
+    font-weight: 700;
+    height: 26px;
+    border-bottom: 1px solid #ebebeb;
+    box-shadow: rgba(0,0,0,.1)0 1px 2px;
+}
+.sapui6_mypicker>.head>.prev {
+    border-color: transparent #dcdcdc transparent transparent;
+    float: left;
+    margin-left: 3px;
+    border-style: solid;
+    border-width: 6px;
+    margin-top: 7px;
+    width: 0;
+    height: 0;
+    cursor: pointer;
+}
+.sapui6_mypicker>.head>.title {
+    float: left;
+    text-align: center;
+    width: 160px;
+    padding-top: 5px;
+    height: 21px;
+}
+.sapui6_mypicker>.head>.next {
+    border-color: transparent transparent transparent #dcdcdc;
+    float: right;
+    margin-right: 3px;
+    border-style: solid;
+    border-width: 6px;
+    margin-top: 7px;
+    width: 0;
+    height: 0;
+    cursor: pointer;
+}
+
+.sapui6_mypicker>table.body {
+    border-spacing: 0;
+    display: table;
+    border-collapse: separate;
+    border-color: gray;
+}
+
+.sapui6_mypicker>table.body td {
+    width: 60.6px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 17px;
+    color: #333;
+    border-right: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+.sapui6_mypicker>table.body td.active {
+    color: #fff;
+    background-color: #9167ca;
+    -webkit-box-shadow: inset rgba(0,0,0,.1)0 1px 2px;
+    -moz-box-shadow: inset rgba(0,0,0,.1)0 1px 2px;
+    box-shadow: inset rgba(0,0,0,.1)0 1px 2px;
+    font-weight: 700;
+}
+.sapui6_mypicker>table.body td:hover:not(.active):not(.none) {
+    background-color: #f8f3ff;
+}
+.sapui6_mypicker>table.body tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+.sapui6_inline-checkboxgroup span {
+    margin-right:20px !important;
+}

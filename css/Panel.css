@@ -1,0 +1,22 @@
+.sapui6_panel {
+    background-color: #fff !important;
+    border: 1px solid #ddd;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.sapui6_panel .heading {
+    /*border-color: #ddd;*/
+    font-weight: bold;
+    padding: 10px 10px;
+    border-bottom: 1px solid #ddd;
+    /*border-top-left-radius: 6px;
+    border-top-right-radius: 6px;*/
+}
+.sapui6_panel .body {
+    /*width: 100%;*/
+    padding: 15px;
+    background-color: transparent !important;
+}
+.sapui6_panel .btn-right {
+    float: right!important;
+}

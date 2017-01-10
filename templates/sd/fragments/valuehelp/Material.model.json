@@ -1,0 +1,24 @@
+{
+	"Material" : [
+			{"code":"MX500221","name":"Camera","unitPrice":300,"unit":"EA","stock":"999"},
+			{"code":"MX500222","name":"Notebook","unitPrice":1200,"unit":"EA","stock":"999"},
+			{"code":"MX500223","name":"Pad","unitPrice":430,"unit":"EA","stock":"999"},
+			{"code":"MX500224","name":"Print","unitPrice":220,"unit":"EA","stock":"999"},
+			{"code":"MX500225","name":"Material1","unitPrice":5000,"unit":"EA","stock":"999"},
+			{"code":"MX500226","name":"Material2","unitPrice":100,"unit":"EA","stock":"999"},
+			{"code":"MX500227","name":"Material3","unitPrice":2200,"unit":"EA","stock":"999"},
+			{"code":"MX500228","name":"Material4","unitPrice":8230,"unit":"EA","stock":"999"},
+			{"code":"MX500229","name":"Material5","unitPrice":400,"unit":"EA","stock":"999"},
+			{"code":"MX500230","name":"Material6","unitPrice":1250,"unit":"EA","stock":"999"},
+			{"code":"MX500231","name":"Material7","unitPrice":700,"unit":"EA","stock":"999"},
+			{"code":"MX500232","name":"Material8","unitPrice":900,"unit":"EA","stock":"999"},
+			{"code":"MX500233","name":"Material9","unitPrice":2100,"unit":"EA","stock":"999"},
+			{"code":"MX500234","name":"Material10","unitPrice":300,"unit":"EA","stock":"999"},
+			{"code":"MX500235","name":"Material11","unitPrice":380,"unit":"EA","stock":"999"},
+			{"code":"MX500236","name":"Material12","unitPrice":5500,"unit":"EA","stock":"999"},
+			{"code":"MX500237","name":"Material13","unitPrice":2200,"unit":"EA","stock":"999"},
+			{"code":"MX500238","name":"Material14","unitPrice":1000,"unit":"EA","stock":"999"},
+			{"code":"MX500239","name":"Material15","unitPrice":900,"unit":"EA","stock":"999"},
+			{"code":"MX500240","name":"Material16","unitPrice":700,"unit":"EA","stock":"999"}
+		]
+}

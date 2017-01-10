@@ -1,0 +1,6 @@
+{
+	"DeliveryTerms" : [
+		{"key":"1", "text":"Costs and Freight"},
+		{"key":"2", "text":"Ex Works"}
+	]
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>SAPUI56 Custom Control for CoachMark</title>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../../../../css/CoachMark.css">
+	<style>
+	.coachMarkDemo {padding:10px;border:1px solid #363F48;border-radius: 8px;margin: 10px;background-color: #fff;}
+	</style>
+	<script
+		id='sap-ui-bootstrap'
+		type='text/javascript'
+		src='https://sapui5.netweaver.ondemand.com/resources/sap-ui-core.js'
+		data-sap-ui-xx-bindingSyntax="complex"
+		data-sap-ui-theme='sap_bluecrystal'
+		data-sap-ui-libs='sap.ui.layout, sap.ui.commons'
+		data-sap-ui-resourceroots='{
+			"view" : "./view",
+			"sapui6" : "../../../../sapui6-resources/sapui6"
+		}' >
+	</script>
+	
+	<script>
+
+		jQuery.sap.require("jquery.sap.resources");
+
+		var coachmark = sap.ui.view({viewName:"view.CoachMark", type:sap.ui.core.mvc.ViewType.JS});
+		coachmark.placeAt("content");
+		
+	</script>
+
+</head>
+<body class='sapUiBody' id='content'>
+</body>
+</html>

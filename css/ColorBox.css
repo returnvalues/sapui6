@@ -1,0 +1,15 @@
+.sapui6_ColorBox{
+    padding: 10px 20px 10px 20px;
+    /*margin: 5px;*/
+    border-width: 1px;
+    border-style: solid;
+    border-left-width: 5px;
+}
+.sapui6_ColorBox .title{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sapui6_ColorBox .btn-right {
+    float: right!important;
+}

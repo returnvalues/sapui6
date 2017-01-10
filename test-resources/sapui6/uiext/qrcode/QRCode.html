@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>SAPUI6 Custom Control for QR Code</title>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+	<meta charset="UTF-8">
+	<style>
+	.alignCenter{text-align: center;vertical-align: middle;background-color: #fff;padding:5px;border:2px solid #ddd;}
+	</style>
+	<script
+		id='sap-ui-bootstrap'
+		type='text/javascript'
+		src='https://sapui5.netweaver.ondemand.com/resources/sap-ui-core.js'
+		data-sap-ui-xx-bindingSyntax="complex"
+		data-sap-ui-theme='sap_bluecrystal'
+		data-sap-ui-libs='sap.ui.layout, sap.ui.commons'
+		data-sap-ui-resourceroots='{
+			"view" : "./view",
+			"sapui6" : "../../../../sapui6-resources/sapui6"
+		}' >
+	</script>
+	<script src="ext/jquery.qrcode.min.js" type="text/javascript"></script>
+	<script>
+
+		jQuery.sap.require("jquery.sap.resources");
+
+		var qrcode = sap.ui.view({viewName:"view.QRCode", type:sap.ui.core.mvc.ViewType.JS});
+		qrcode.placeAt("content");
+		
+	</script>
+
+</head>
+<body class='sapUiBody' id='content'>
+</body>
+</html>

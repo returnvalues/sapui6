@@ -1,0 +1,124 @@
+.sapui6_slide {
+    -webkit-animation: slideLeftToRight 1s; 
+    animation: slideLeftToRight 1s;
+}
+
+@-webkit-keyframes slideLeftToRight {
+    from {width: 0;}
+    to {width: 100%;}
+}
+
+@-moz-keyframes slideLeftToRight {
+	from {width: 0;}
+    to {width: 100%;}
+}
+
+@-o-keyframes slideLeftToRight {
+	from {width: 0;}
+    to {width: 100%;}
+}
+
+@keyframes slideLeftToRight {
+    from {width: 0;}
+    to {width: 100%;}
+}
+
+.sapui6_fadeout {
+    -webkit-animation: fadeout 2s; 
+    animation: fadeout 2s;
+}
+
+@-webkit-keyframes fadeout {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@-moz-keyframes fadeout {
+	from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@-o-keyframes fadeout {
+	from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.sapui6_rotate {
+    -webkit-animation: rotate 1s; 
+    animation: rotate 1s;
+}
+
+@-webkit-keyframes rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+@-moz-keyframes rotate {
+	from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+@-o-keyframes rotate {
+	from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+@keyframes rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+.sapui6_flip {
+    -webkit-animation: flip 1s; 
+    animation: flip 1s;
+}
+
+@-webkit-keyframes flip {
+    from {opacity: 0; transform: rotateY(180deg);}
+    to {opacity: 1; transform: rotateY(0deg);}
+}
+
+@-moz-keyframes flip {
+	from {opacity: 0; transform: rotateY(180deg);}
+    to {opacity: 1; transform: rotateY(0deg);}
+}
+
+@-o-keyframes flip {
+	from {opacity: 0; transform: rotateY(180deg);}
+    to {opacity: 1; transform: rotateY(0deg);}
+}
+
+@keyframes flip {
+    from {opacity: 0; transform: rotateY(180deg);}
+    to {opacity: 1; transform: rotateY(0deg);}
+}
+
+.sapui6_scale {
+    -webkit-animation: scale 1s; 
+    animation: scale 1s;
+}
+
+@-webkit-keyframes scale {
+    from {transform: scale(0);}
+    to {transform: scale(1);}
+}
+
+@-moz-keyframes scale {
+	from {transform: scale(0);}
+    to {transform: scale(1);}
+}
+
+@-o-keyframes scale {
+	from {transform: scale(0);}
+    to {transform: scale(1);}
+}
+
+@keyframes scale {
+    from {transform: scale(0);}
+    to {transform: scale(1);}
+}

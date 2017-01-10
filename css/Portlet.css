@@ -1,0 +1,24 @@
+.sapui6_portlet {
+    background-color: #fff !important;
+    border-width: 1px;
+    border-style: solid;
+    /*border-radius: 6px;*/
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.sapui6_portlet .heading {
+    /*border-color: #ddd;*/
+    font-weight: bold;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.sapui6_portlet .body {
+    /*width: 100%;*/
+    padding: 0px;
+    background-color: transparent !important;
+}
+.sapui6_portlet .btn-right {
+    float: right!important;
+}

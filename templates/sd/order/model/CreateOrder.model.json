@@ -1,0 +1,19 @@
+{
+	"Header" : {
+		"BSTKD" : "",
+		"VBELN" : "",
+		"KUNNR" : "",
+		"AUART" : "",
+		"VDATU" : "",
+		"VKORG" : "1000",
+		"VTWEG" : "10",
+		"SPART" : "10",
+		"FormHeader" : ""
+	},
+
+    "Items" : [
+		{"MATNR":"", "ARKTX":"", "KWMENG":0,"VRKME":"EA","NETWR":0}
+	]
+}
+
+                    

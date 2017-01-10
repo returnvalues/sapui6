@@ -1,0 +1,57 @@
+.sapui6_formLayout {}
+
+.sapui6_formLayout table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    border-width: 1px;
+    border-style: solid;
+    border-top-width: 2px;
+    border-top-style: solid;
+}
+
+.sapui6_formLayout tbody {
+    display: table-row-group;
+    vertical-align: middle;
+}
+
+.sapui6_formLayout tbody tr {
+    display: table-row;
+    vertical-align: inherit;
+}
+
+.sapui6_formLayout tbody tr td{
+    padding: 8px 10px;
+    line-height: 1.42857143;
+    vertical-align: top;
+}
+
+.sapui6_formLayout tbody tr .label{
+    color : #353535;
+    font-family: inherit;
+}
+
+.sapui6_formLayout .btn-right {
+    float: right!important;
+    vertical-align: middle;
+    margin-bottom: 5px;
+}
+
+.sapui6_formLayout .title {
+    margin-bottom: 5px;
+    padding-left: 5px;
+    font-weight: bold;
+    border-left-width: 5px;
+    border-left-style: solid;
+}
+
+.sapui6_formLayout .inlineForm {
+    border-width: 1px;
+    border-style: solid;
+    border-top-width: 2px;
+    border-top-style: solid;
+    padding: 15px 10px 15px 10px;
+}
+
+

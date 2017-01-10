@@ -1,0 +1,26 @@
+{
+	"data" : [
+			{"code":"1000001","desc":"3m Co"},
+			{"code":"1000002","desc":"Alcoa Inc"},
+			{"code":"1000003","desc":"Altria Group Inc"},
+			{"code":"1000004","desc":"American Express Company"},
+			{"code":"1000005","desc":"American International Group Inc"},
+			{"code":"1000006","desc":"AT&T Inc"},
+			{"code":"1000007","desc":"Boeing Co."},
+			{"code":"1000008","desc":"Caterpillar Inc."},
+			{"code":"1000009","desc":"Citigroup"},
+			{"code":"1000010","desc":"Exxon Mobil Gorp"},
+			{"code":"1000011","desc":"General Electric Company"},
+			{"code":"1000012","desc":"General Motors Corporation"},
+			{"code":"1000013","desc":"Hewlett-Packard Co."},
+			{"code":"1000014","desc":"Honeywell Intl Inc"},
+			{"code":"1000015","desc":"Intel Corporation"},
+			{"code":"1000016","desc":"International Business Machines"},
+			{"code":"1000017","desc":"Johnson & Johnson"},
+			{"code":"1000018","desc":"JP Morgan & Chase & Co"},
+			{"code":"1000019","desc":"McDonalds"},
+			{"code":"1000020","desc":"Microsoft Corporation"},
+			{"code":"1000021","desc":"Pfizer Inc"},
+			{"code":"1000022","desc":"The Coca-Cola Company"}
+		]
+}

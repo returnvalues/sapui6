@@ -1,0 +1,31 @@
+{
+    "data" : [
+            {"company":"China Petroleum and Chemical Corporation","country":"China","region":"Asia","sector":"ENERG","output":6948,"ic":3.6,"ni":0.3,"q1":7.9,"spec":1.0,"exc":156,"exc2":2.3,"lead":3872,"lead2":55.7},
+            {"company":"PetroChina","country":"China","region":"Asia","sector":"PHAR","output":3629,"ic":6.1,"ni":0.5,"q1":12.1,"spec":1.0,"exc":170,"exc2":5.1,"lead":1677,"lead2":46.2},
+            {"company":"Fujitsu Laboratories Ltd.","country":"Japan","region":"Asia","sector":"ICT","output":3097,"ic":16.3,"ni":1.0,"q1":31.4,"spec":0.8,"exc":244,"exc2":9.8,"lead":1820,"lead2":58.8},
+            {"company":"Hitachi Limited","country":"Japan","region":"Asia","sector":"ICT","output":6689,"ic":12.3,"ni":1.0,"q1":33.7,"spec":0.8,"exc":448,"exc2":8.3,"lead":3954,"lead2":59.1},
+            {"company":"Nippon Electric Company Corporation","country":"Japan","region":"Asia","sector":"ICT","output":3352,"ic":14.4,"ni":1.2,"q1":36.7,"spec":0.9,"exc":322,"exc2":12.4,"lead":1976,"lead2":59.0},
+            {"company":"Nippon Telegraph and Telephone Corporation","country":"Japan","region":"Asia","sector":"ICT","output":9428,"ic":13.0,"ni":0.9,"q1":30.4,"spec":0.9,"exc":814,"exc2":11.0,"lead":6932,"lead2":73.5},
+            {"company":"Toshiba Corporation","country":"Japan","region":"Asia","sector":"ICT","output":4770,"ic":10.2,"ni":1.0,"q1":29.5,"spec":0.9,"exc":289,"exc2":7.9,"lead":3000,"lead2":62.9},
+            {"company":"Samsung Electronics","country":"Korea","region":"Asia","sector":"ICT","output":7225,"ic":20.8,"ni":1.2,"q1":39.9,"spec":0.9,"exc":735,"exc2":13.1,"lead":3469,"lead2":48.0},
+            {"company":"Alcatel-Lucent","country":"USA","region":"North America","sector":"ICT","output":4567,"ic":34.1,"ni":2.1,"q1":52.4,"spec":0.9,"exc":978,"exc2":26.1,"lead":2307,"lead2":50.5},
+            {"company":"Eli Lilly and Company","country":"USA","region":"North America","sector":"PHAR","output":4678,"ic":33.1,"ni":2.4,"q1":79.5,"spec":0.8,"exc":1297,"exc2":27.9,"lead":2129,"lead2":45.5},
+            {"company":"F. Hoffmann-La Roche, Ltd.","country":"USA","region":"North America","sector":"PHAR","output":3862,"ic":32.4,"ni":3.2,"q1":83.4,"spec":0.8,"exc":1347,"exc2":35.0,"lead":1387,"lead2":35.9},
+            {"company":"GlaxoSmithKline, United States","country":"USA","region":"North America","sector":"PHAR","output":4687,"ic":36.2,"ni":2.4,"q1":79.7,"spec":0.8,"exc":1252,"exc2":26.9,"lead":1779,"lead2":38.0},
+            {"company":"IBM Corporation","country":"USA","region":"North America","sector":"ICT","output":15593,"ic":35.3,"ni":2.3,"q1":41.4,"spec":0.9,"exc":2983,"exc2":26.1,"lead":8970,"lead2":57.5},
+            {"company":"Merck & Co.,Inc","country":"USA","region":"North America","sector":"PHAR","output":9137,"ic":28.6,"ni":2.3,"q1":79.9,"spec":0.8,"exc":2511,"exc2":27.7,"lead":5061,"lead2":55.4},
+            {"company":"Microsoft Corporation","country":"USA","region":"North America","sector":"ICT","output":5428,"ic":32.8,"ni":2.9,"q1":36.6,"spec":0.9,"exc":1321,"exc2":33.3,"lead":2699,"lead2":49.7},
+            {"company":"Pfizer Inc.","country":"USA","region":"North America","sector":"PHAR","output":11559,"ic":28.4,"ni":2.2,"q1":78.5,"spec":0.8,"exc":3044,"exc2":26.5,"lead":5300,"lead2":45.9},
+            {"company":"Texas Instruments","country":"USA","region":"North America","sector":"ICT","output":2912,"ic":19.8,"ni":1.8,"q1":38.3,"spec":0.9,"exc":396,"exc2":17.2,"lead":1664,"lead2":57.1},
+            {"company":"Interuniversity Microelectronics Center","country":"Belgium","region":"Europe","sector":"ICT","output":6282,"ic":51.9,"ni":1.9,"q1":45.9,"spec":0.9,"exc":963,"exc2":20.6,"lead":3652,"lead2":58.1},
+            {"company":"Siemens AG","country":"Germany","region":"Europe","sector":"ICT","output":5155,"ic":35.8,"ni":1.3,"q1":28.7,"spec":0.8,"exc":568,"exc2":14.6,"lead":2311,"lead2":45.2},
+            {"company":"GlaxoSmithKline, United Kingdom","country":"United Kingdom","region":"Europe","sector":"PHAR","output":4585,"ic":47.4,"ni":2.0,"q1":77.0,"spec":0.8,"exc":1106,"exc2":24.3,"lead":1301,"lead2":28.4},
+            {"company":"Novartis","country":"Switzerland","region":"Europe","sector":"PHAR","output":4477,"ic":74.6,"ni":2.6,"q1":80.9,"spec":0.8,"exc":1431,"exc2":32.2,"lead":1641,"lead2":36.7},
+            {"company":"Philips Research Eindhoven","country":"Netherlands","region":"Europe","sector":"ICT","output":3620,"ic":41.0,"ni":2.0,"q1":44.0,"spec":0.8,"exc":637,"exc2":23.0,"lead":1722,"lead2":47.6},
+            {"company":"SINTEF Group","country":"Norway","region":"Europe","sector":"ICT","output":3318,"ic":34.5,"ni":1.4,"q1":39.6,"spec":0.7,"exc":465,"exc2":17.3,"lead":1627,"lead2":49.0},
+            {"company":"STMicroelectronics","country":"France","region":"Europe","sector":"ICT","output":3117,"ic":24.5,"ni":1.6,"q1":39.3,"spec":0.9,"exc":328,"exc2":16.4,"lead":1337,"lead2":42.9},
+            {"company":"Thales Group France, S.A.","country":"France","region":"Europe","sector":"ICT","output":2849,"ic":36.4,"ni":1.0,"q1":28.8,"spec":0.9,"exc":199,"exc2":11.4,"lead":1215,"lead2":342.7}
+        ]
+}
+
+                    

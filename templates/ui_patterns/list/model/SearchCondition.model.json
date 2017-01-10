@@ -1,0 +1,20 @@
+{
+	"SearchCondition" : {
+		"ComboBox" : "2",
+		"FromDate" : "",
+		"ToDate" : "",
+		"ValueHF" : "",
+		"ValueHFDesc" : "",
+		"TextField" : "",
+		"Chk1" : false,
+		"Chk2" : true,
+		"Chk3" : false,
+		"Chk4" : false
+	},
+
+	"ComboBoxData" : [
+		{"text" : "ComboBox-Item 1", "key" : "1"},
+		{"text" : "ComboBox-Item 2", "key" : "2"},
+		{"text" : "ComboBox-Item 3", "key" : "3"}
+	]
+}

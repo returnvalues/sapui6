@@ -1,0 +1,21 @@
+{
+	"SearchCondition" : {
+		"Status" : "2",
+		"FromDate" : "",
+		"ToDate" : "",
+		"Soldto" : "",
+		"SoldtoDesc" : "",
+		"PurchaseOrderNo" : "",
+		"SalesOrderNo" : "",
+		"Material" : "",
+		"MaterialDesc" : ""
+	},
+
+	"Status" : [
+		{"text" : "", "key" : ""},
+		{"text" : "Open", "key" : "1"},
+		{"text" : "On-going", "key" : "2"},
+		{"text" : "Completed", "key" : "3"},
+		{"text" : "Rejected", "key" : "4"}
+	]
+}

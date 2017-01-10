@@ -1,0 +1,17 @@
+.sapui6_readmore {
+    background-color: transparent !important;
+}
+.sapui6_readmore .heading {
+    font-weight: bold;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+.sapui6_readmore .body {
+    width : 100%;
+    padding-top: 15px;
+    background-color: transparent !important;
+}
+.sapui6_readmore .btn-right {
+    float: right!important;
+    margin-right: 10px;
+}

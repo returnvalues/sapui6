@@ -1,0 +1,22 @@
+{
+	"FormData" : {
+		"Data1" : "FormData - Data1",
+		"Data2" : "FormData - Data2",
+		"Data3" : "FormData - Data3",
+		"Data4" : "(Data3-Desc)",
+		"Data5" : "FormData - Data4",
+		"Data6" : "FormData - Data5",
+		"Chk1" : true,
+		"Chk2" : true,
+		"Chk3" : false,
+		"Chk4" : false
+	},
+
+	"TableData" : [
+		{"column1":"Text Data","column2":"Text Data","column3":"Text Data","column4":"Text Data","column5":"32123","column6":"20140909","column7":"0.23","column8":"23410.21"},
+		{"column1":"Text Data","column2":"Text Data","column3":"Text Data","column4":"Text Data","column5":"32123","column6":"20140909","column7":"0.23","column8":"23410.21"},
+		{"column1":"Text Data","column2":"Text Data","column3":"Text Data","column4":"Text Data","column5":"32123","column6":"20140909","column7":"0.23","column8":"23410.21"},
+		{"column1":"Text Data","column2":"Text Data","column3":"Text Data","column4":"Text Data","column5":"32123","column6":"20140909","column7":"0.23","column8":"23410.21"},
+		{"column1":"Text Data","column2":"Text Data","column3":"Text Data","column4":"Text Data","column5":"32123","column6":"20140909","column7":"0.23","column8":"23410.21"}
+	]
+}

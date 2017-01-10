@@ -1,0 +1,76 @@
+{
+	"ComboBoxData" : [
+		{"text" : "ComboBox-Item 1", "key" : "1"},
+		{"text" : "ComboBox-Item 2", "key" : "2"},
+		{"text" : "ComboBox-Item 3", "key" : "3"}
+	],
+
+	"FormData" : {
+		"ComboBox" : "2",
+		"Date" : "20141225",
+		"ValueHF" : "0000001",
+		"ValueHFDesc" : "SAPUI6",
+		"Chk1" : false,
+		"Chk2" : true,
+		"Chk3" : false,
+		"Chk4" : true,
+		"Radio" : "Yes",
+		"Code" : "1000234",
+		"Currency" : 4785300.15,
+		"Qty" : 2450,
+		"Percent" : 23.25,
+		"Uppercase" : "UPPERCASE DATA",
+		"Lowercase" : "lowercase data",
+		"Year" : "2014",
+		"Month" : "201409",
+		"Time" : "13:25",
+		"UserId" : "steve1977",
+		"Email" : "contact@sapui6.com",
+		"URL" : "http://www.sapui6.com",
+		"TextField" : "Welcome",
+		"Slider" : 200,
+		"TextArea" : "Power to the UI5 Developer"
+	},
+
+	"FormData2" : {
+		"ComboBox" : "2",
+		"Date" : "20141225",
+		"ValueHF" : "0000001",
+		"ValueHFDesc" : "SAPUI6",
+		"Chk1" : false,
+		"Chk2" : true,
+		"Chk3" : false,
+		"Chk4" : true,
+		"Radio" : "Yes",
+		"Code" : "1000234",
+		"Currency" : 4785300.15,
+		"Qty" : 2450,
+		"Percent" : 23.25,
+		"Uppercase" : "UPPERCASE DATA",
+		"Lowercase" : "lowercase data",
+		"Year" : "2014",
+		"Month" : "201409",
+		"Time" : "13:25",
+		"UserId" : "steve1977",
+		"Email" : "contact@sapui6.com",
+		"URL" : "http://www.sapui6.com",
+		"TextField" : "Welcome",
+		"Slider" : 200,
+		"TextArea" : "Power to the UI5 Developer"
+	},
+
+    "TableData" : [
+		{"column1":"Text Data","column2":"Text Data","column3":"0000001","column4":false,"column5":32100.24,"column6":"20140909","column7":124,"column8":0.21,"column9":"Yes"},
+		{"column1":"Text Data","column2":"Text Data","column3":"0000002","column4":true,"column5":45000.00,"column6":"20140909","column7":750,"column8":17.3,"column9":"No"},
+		{"column1":"Text Data","column2":"Text Data","column3":"0000003","column4":true,"column5":748210.70,"column6":"20140909","column7":4521,"column8":10,"column9":"Yes"},
+		{"column1":"Text Data","column2":"Text Data","column3":"0000004","column4":false,"column5":5300.00,"column6":"20140909","column7":574,"column8":8.45,"column9":"No"},
+		{"column1":"Text Data","column2":"Text Data","column3":"0000005","column4":true,"column5":38000.00,"column6":"20140909","column7":2105,"column8":5.89,"column9":"No"},
+		{"column1":"Text Data","column2":"Text Data","column3":"0000001","column4":false,"column5":32100.24,"column6":"20140909","column7":124,"column8":0.21,"column9":"Yes"},
+		{"column1":"Text Data","column2":"Text Data","column3":"0000002","column4":true,"column5":45000.00,"column6":"20140909","column7":750,"column8":17.3,"column9":"No"},
+		{"column1":"Text Data","column2":"Text Data","column3":"0000003","column4":true,"column5":748210.70,"column6":"20140909","column7":4521,"column8":10,"column9":"Yes"},
+		{"column1":"Text Data","column2":"Text Data","column3":"0000004","column4":false,"column5":5300.00,"column6":"20140909","column7":574,"column8":8.45,"column9":"No"},
+		{"column1":"Text Data","column2":"Text Data","column3":"0000005","column4":true,"column5":38000.00,"column6":"20140909","column7":2105,"column8":5.89,"column9":"No"}
+	]
+}
+
+                    

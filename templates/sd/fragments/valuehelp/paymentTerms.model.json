@@ -1,0 +1,14 @@
+{
+	"items" : [
+		{"code":"0001", "description":"Payable immediately Due net"},
+		{"code":"0002", "description":"within 14 days 2 % cash discount"},
+		{"code":"0003", "description":"within 14 days 3 % cash discount"},
+		{"code":"0004", "description":"Payable immediately Due net"},
+		{"code":"0006", "description":"Before End of the month 4 % cash discount"},
+		{"code":"NT30", "description":"Net due in 30 days"}
+	]
+}
+
+
+
+
