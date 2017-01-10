@@ -1,5 +1,6 @@
 # sapui6
 SAPUI5 custom controls
+Demo & Documentation : http://sapui6.com
 As many of you know, SAPUI5 standard controls are not enough for developing rich applications. But customer satisfaction is essential for business success in today’s marketplace. SAPUI6 provides you SAPUI5 custom controls more than 100 controls. The controls are more powerful than SAPUI5 standard. And the api of SAPUI6 is very similar to Standard SAPUI5. If you know the api of SAPUI5, you can get it easily. You can get ability to develop rich applications by SAPUI6 controls. – Table, Geo Map, Team Calendar, Draggable Tree, Signature Box and Form Fields.
 
 
