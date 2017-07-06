@@ -1,9 +1,3 @@
-/*!
- * Custom Control for SAPUI5
- * http://www.sapui6.com
- * (c) Copyright 2014 ReturnValues. All rights reserved
- */
-
 jQuery.sap.declare("sapui6.ui.table.Table");
 jQuery.sap.require("sap.ui.core.Control");
 jQuery.sap.require("sap.ui.model.SelectionModel");
@@ -125,7 +119,7 @@ sap.ui.core.Control.extend("sapui6.ui.table.Table", {
     _initColumnConfiguration : false,
     _widthRatio : 1,
     _heightRatio : 1,
-    trHtmlArr : [],
+    trHtArr : [],
     _oSelection : null,
     _backgroundColor : null,
     _tableRowBGColor : null,
@@ -587,7 +581,8 @@ sapui6.ui.table.Table.prototype._setColumnsMenuEntry = function(){
         if(column.getShowFilterMenuEntry()){
             oCustomMenu.addItem(new sapui6.ui.table.MenuFilterItem(oCustomMenu.getId() + "-filter", {
                 label: that.label.getText("filter"),
-                icon: that._getThemedIcon("ico12_filter.gif"),
+                icon: "sap-icon://add-filter",
+                // icon: that._getThemedIcon("ico12_filter.gif"),
                 value: "",
                 type: column.getFilterType(),
                 select: function(oEvent) {
@@ -598,7 +593,7 @@ sapui6.ui.table.Table.prototype._setColumnsMenuEntry = function(){
 
             oCustomMenu.addItem(new sap.ui.unified.MenuItem(oCustomMenu.getId()+"-clear_filter",{
                 text:that.label.getText("clear_filter"),
-                icon:"sap-icon://decline",
+                icon:"sap-icon://clear-filter",
                 select:function(oEvent) {
                     sap.ui.getCore().byId(that.getId()).clearFilter();
                     that._resetTableContextMenu(that, index, "clear_filter");
@@ -613,7 +608,7 @@ sapui6.ui.table.Table.prototype._setColumnsMenuEntry = function(){
             if(that.getFixedColumnIndex() > -1 && that.getFixedColumnIndex() == index){
                 oCustomMenu.addItem(new sap.ui.unified.MenuItem(oCustomMenu.getId()+"-freeze",{
                     text:that.label.getText("freeze_panes"),
-                    icon:"sap-icon://collapse",
+                    icon:"sap-icon://screen-split-one",
                     select:function(oEvent) {
                         sap.ui.getCore().byId(that.getId()).freezePane(index);
                         that._resetTableContextMenu(that, index, "freeze");
@@ -631,7 +626,7 @@ sapui6.ui.table.Table.prototype._setColumnsMenuEntry = function(){
             }else{
                 oCustomMenu.addItem(new sap.ui.unified.MenuItem(oCustomMenu.getId()+"-freeze",{
                     text:that.label.getText("freeze_panes"),
-                    icon:"sap-icon://collapse",
+                    icon:"sap-icon://screen-split-one",
                     select:function(oEvent) {
                         sap.ui.getCore().byId(that.getId()).freezePane(index);
                         that._resetTableContextMenu(that, index, "freeze");
@@ -1787,18 +1782,27 @@ sapui6.ui.table.Table.prototype.foldGroup = function(childName, rowIdx, e){
     var obj = (window.event)?event.srcElement:e.currentTarget;
 
     var icon = $("#"+this.getId()+"-group-fold-icon-"+rowIdx);
-    var isPlus = icon.attr("src").indexOf("ico12_closed_plus")>-1?true:false;
+    // var isPlus = icon.attr("src").indexOf("ico12_closed_plus")>-1?true:false;
+    var isPlus = icon.attr('data-rv-open');
 
     var childs = $("[name='" + childName + "']");
+
+    var IconPool = sap.ui.requireSync("sap/ui/core/IconPool");
     
-    if(isPlus){
-        icon.attr("src", this._getThemedIcon("ico12_open_minus.gif"));
+    if(isPlus == 'true'){
+        var group_icon = IconPool.getIconInfo('sap-icon://collapse');
+
+        icon.attr("data-sap-ui-icon-content", group_icon.content);
+        icon.attr('data-rv-open', 'false');
         var length = childs.length;
         for(var i=0 ; i<length ; i++){
             childs[i].style.display = "";
         }
     }else{
-        icon.attr("src", this._getThemedIcon("ico12_closed_plus.gif"));
+        var group_icon = IconPool.getIconInfo('sap-icon://expand');
+
+        icon.attr("data-sap-ui-icon-content", group_icon.content);
+        icon.attr('data-rv-open', 'true');
         var length = childs.length;
         for(var i=0 ; i<length ; i++){
             childs[i].style.display = "none";
@@ -1812,15 +1816,21 @@ sapui6.ui.table.Table.prototype.foldGroup2 = function(name, level, rowIdx, e){
     var obj = (window.event)?event.srcElement:e.currentTarget;
     
     var icon = $("#"+this.getId()+"-tree-fold-icon-"+rowIdx);
-    var isPlus = icon.attr("src").indexOf("ico12_closed_plus")>-1?true:false;
+    var isPlus = icon.attr('data-rv-open');
     var childs = $("[name='" + name + "']");
     var tr = obj;
     while(tr.tagName != "TR") tr = tr.parentNode;
     
     var parentKey = tr.getAttribute("level" + String(level));
 
-    if(isPlus){
-        icon.attr("src", this._getThemedIcon("ico12_open_minus.gif"));
+    var IconPool = sap.ui.requireSync("sap/ui/core/IconPool");
+
+    if(isPlus == 'true'){
+        var group_icon = IconPool.getIconInfo('sap-icon://collapse');
+
+        icon.attr("data-sap-ui-icon-content", group_icon.content);
+        icon.attr('data-rv-open', 'false');
+
         var preTree = "";
         var length = childs.length;
         var preStatus = "";
@@ -1850,7 +1860,11 @@ sapui6.ui.table.Table.prototype.foldGroup2 = function(name, level, rowIdx, e){
             }
         }
     }else{
-        icon.attr("src", this._getThemedIcon("ico12_closed_plus.gif"));
+        var group_icon = IconPool.getIconInfo('sap-icon://expand');
+
+        icon.attr("data-sap-ui-icon-content", group_icon.content);
+        icon.attr('data-rv-open', 'true');
+
         var length = childs.length;
         for(var i=0 ; i<length ; i++){
             if(childs[i].getAttribute("level"+String(level)) == parentKey && level < parseInt(childs[i].getAttribute("level"))){
@@ -2019,17 +2033,19 @@ sapui6.ui.table.Table.prototype._createColumnVisibilityMenuItem = function(oTabl
 
     return new sap.ui.unified.MenuItem(sId, {
         text: sText,
-        icon: oColumn.getVisible()?this._getThemedIcon("ico_tick.png"):null,
+        icon: oColumn.getVisible()?'sap-icon://accept':null,
+        // icon: oColumn.getVisible()?this._getThemedIcon("ico_tick.png"):null,
         select: jQuery.proxy(function(oEvent) {
             that.showLoading();
             var oMenuItem = oEvent.getSource();
             var bVisible = (oColumn.getVisible())?true:false;
+
             if (bVisible && !that.isLastShowColumn()) {
                 oColumn.setVisible(false);
                 oMenuItem.setIcon(null);
             }else{
                 oColumn.setVisible(true);
-                oMenuItem.setIcon(that._getThemedIcon("ico_tick.png"));
+                oMenuItem.setIcon('sap-icon://accept');
             }
 
             that.invalidate();
@@ -2152,22 +2168,20 @@ sapui6.ui.table.Table.prototype.changePage = function(){
 };
 
 sapui6.ui.table.Table.prototype.setSortIcon = function(colIdx, iconUrl){
-    var sCurrentTheme = sap.ui.getCore().getConfiguration().getTheme();
-    var oImage = sap.ui.getCore().byId(this.getId() + "-sortIcon") || new sap.ui.commons.Image(this.getId() + "-sortIcon");
-    oImage.addStyleClass("sapUiTableColIconsOrder");
-    oImage.setSrc(iconUrl);
-    
-    var htmlImage = this._RM.getHTML(oImage);
-    
     var length = this.getColumns().length;
     for(var i=0 ; i<length ; i++){
         $("#"+this.getId()+"-sort-icon-"+i).html("");
     }
 
+
+    var IconPool = sap.ui.requireSync("sap/ui/core/IconPool");
+    var sortIcont = IconPool.getIconInfo(iconUrl);
+    var iconHtml = '<span role="presentation" aria-hidden="true" data-sap-ui-icon-content="' + sortIcont.content + '" class="sapMSLIImgIcon sapUiIcon sapUiIconMirrorInRTL" style="font-family:\'SAP-icons\'"></span>';
+
     if(this.gridType == 0 && this.getFixedColumnIndex() < 0){
-        $("#"+this.getId()+"-sort-icon-"+colIdx).html(htmlImage);
+        $("#"+this.getId()+"-sort-icon-"+colIdx).html(iconHtml);
     }else if(this.gridType == 0 && this.getFixedColumnIndex() > -1){
-        $("#"+this.getId()+"-sort-icon-"+colIdx).html(htmlImage);
+        $("#"+this.getId()+"-sort-icon-"+colIdx).html(iconHtml);
     }
 };
 
@@ -2192,7 +2206,8 @@ sapui6.ui.table.Table.prototype.sortASC = function(colIdx, key){
         }
 
         if(!this.isGroup || colIdx == this.groupHeaderIdx){
-            this.setSortIcon(colIdx, this._getThemedIcon("ico12_sort_asc.gif"));
+            this.setSortIcon(colIdx, 'sap-icon://sort-ascending');
+            // this.setSortIcon(colIdx, this._getThemedIcon("ico12_sort_asc.gif"));
             
             if(this.getMergeColumnIndex() > -1){
                 var that = this;
@@ -2245,7 +2260,8 @@ sapui6.ui.table.Table.prototype.sortDES = function(colIdx, key){
         }
 
         if(!this.isGroup || colIdx == this.groupHeaderIdx){
-            this.setSortIcon(colIdx, this._getThemedIcon("ico12_sort_desc.gif"));
+            this.setSortIcon(colIdx, 'sap-icon://sort-descending');
+            // this.setSortIcon(colIdx, this._getThemedIcon("ico12_sort_desc.gif"));
 
             if(this.getMergeColumnIndex() > -1){
                 var that = this;
@@ -3077,7 +3093,7 @@ sapui6.ui.table.Table.prototype.renderTableHCell = function(idx, isIncludeTHtag,
         th += '<div class="sapUiTableColCell" style="position:relative;">';
     }
 
-    th += '<div class="sapUiTableColIcons" id="' + this.getId() + "-sort-icon-" + idx + '"></div>'
+    th += '<div class="sapUiTableColIcons" id="' + this.getId() + "-sort-icon-" + idx + '" style="float: right !important;"></div>'
 
     if(title != undefined && title != null) th += title;
     else th += this.getColumns()[idx].getTitle();
@@ -3810,7 +3826,7 @@ sapui6.ui.table.Table.prototype.isSummaryLine = function(mergePreText,row,mergeI
 
 sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
     var data;
-    var rowsHtml = "";
+    var rowsHtml = [];
 
     if(newDataArr != undefined && newDataArr != null) data = newDataArr;
     else {
@@ -3881,55 +3897,64 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
 
     this.displayDataArr = [];
 
+    var IconPool = sap.ui.requireSync("sap/ui/core/IconPool");
+
     if(this.gridType == 0){
         if(this.getFixedColumnIndex() < 0){
-            var tbHtml = '';
-            var totalTbHtml = '';
+            var tbHtml = [];
+            var totalTbHtml = [];
 
-            tbHtml += ' <table class="sapui6_table_tb sapUiTableCtrl" id="' + this.gridName + '_dt" style="border-color:' + this._borderColor + ';">';
-            tbHtml += '     <colgroup>';
+            tbHtml.push(' <table class="sapui6_table_tb sapUiTableCtrl" id="' + this.gridName + '_dt" style="border-color:' + this._borderColor + ';">');
+            tbHtml.push('     <colgroup>');
 
-            totalTbHtml += ' <table class="sapui6_table_tb sapUiTableCtrl" id="' + this.gridName + '_tt" style="border-color:' + this._borderColor + ';">';
-            totalTbHtml += '     <colgroup>';
+            totalTbHtml.push(' <table class="sapui6_table_tb sapUiTableCtrl" id="' + this.gridName + '_tt" style="border-color:' + this._borderColor + ';">');
+            totalTbHtml.push('     <colgroup>');
 
             var hLength = this.getColumns().length;
 
             if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                tbHtml += '<col style="width:45px;max-width:45px;min-width:45px;" />';
-                totalTbHtml += '<col style="width:45px;max-width:45px;min-width:45px;" />';
+                tbHtml.push('<col style="width:45px;max-width:45px;min-width:45px;" />');
+                totalTbHtml.push('<col style="width:45px;max-width:45px;min-width:45px;" />');
             }
 
             if(this.isGroup){
-                tbHtml += '         <col style="width:' + this.getColumns()[this.groupHeaderIdx].getWidth() + ';" />';
-                totalTbHtml += '         <col style="width:' + this.getColumns()[this.groupHeaderIdx].getWidth() + ';" />';
+                tbHtml.push('         <col style="width:' + this.getColumns()[this.groupHeaderIdx].getWidth() + ';" />');
+                totalTbHtml.push('         <col style="width:' + this.getColumns()[this.groupHeaderIdx].getWidth() + ';" />');
             }
             
             for(var i=0 ; i<hLength ; i++){
                 if(!this.isGroup || this.groupHeaderIdx != i){
                     if(this.getColumns()[i].getVisible()) {
-                        tbHtml += '          <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />';
-                        totalTbHtml += '          <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />';
+                        tbHtml.push('          <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />');
+                        totalTbHtml.push('          <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />');
                     }else if(!this.getColumns()[i].getVisible()) {
-                        tbHtml += '          <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />';
-                        totalTbHtml += '          <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />';
+                        tbHtml.push('          <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />');
+                        totalTbHtml.push('          <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />');
                     }else {
-                        tbHtml += '            <col style="width:' + this.getColumns()[i].getWidth() + ';" />';
-                        totalTbHtml += '            <col style="width:' + this.getColumns()[i].getWidth() + ';" />';
+                        tbHtml.push('            <col style="width:' + this.getColumns()[i].getWidth() + ';" />');
+                        totalTbHtml.push('            <col style="width:' + this.getColumns()[i].getWidth() + ';" />');
                     }
                 }
             }
 
-            tbHtml += '     </colgroup>';
-            tbHtml += '     <tbody>';
+            tbHtml.push('     </colgroup>');
+            tbHtml.push('     <tbody>');
 
-            totalTbHtml += '     </colgroup>';
-            totalTbHtml += '     <tbody>';
+            totalTbHtml.push('     </colgroup>');
+            totalTbHtml.push('     <tbody>');
+
+            
+
 
         
             if(this.isGroup){
                 var groupCnt = 0;
-                var group_icon = this._getThemedIcon("ico12_closed_plus.gif");
-                if(this.isStartOpen) group_icon = this._getThemedIcon("ico12_open_minus.gif");
+                var group_icon = IconPool.getIconInfo('sap-icon://expand');
+                var bOpen = true;
+                if(this.isStartOpen) {
+                    group_icon = IconPool.getIconInfo('sap-icon://collapse');
+                    bOpen = false;
+                }
                 
                 var groupSummary = [];
                 for(var a=0; a<50 ; a++) groupSummary.push(0);
@@ -3948,20 +3973,20 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
 
                         if(i > 0){
                             if(this.isGroupSummary(this.groupHeaderIdx) && this.getShowGroupSummary()){
-                                rowsHtml += '<tr style="background-color:' + this._totalBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_summary' + '">';
+                                rowsHtml.push('<tr style="background-color:' + this._totalBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_summary' + '">');
                                 
                                 if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                                    rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                                    rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                                 }
 
-                                rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>';
+                                rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>');
                 
                                 for(var j=0 ; j<colLength ; j++){
                                     if(this.groupHeaderIdx != j){
-                                        rowsHtml += this.makeGroupSummary(j,groupCnt,groupSummary);
+                                        rowsHtml.push(this.makeGroupSummary(j,groupCnt,groupSummary));
                                     }
                                 }
-                                rowsHtml += '</tr>'; 
+                                rowsHtml.push('</tr>'); 
 
                                 groupSummary = [];
                                 for(var a=0; a<50 ; a++) groupSummary.push(0);
@@ -3969,26 +3994,29 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                             }
                         }
                         
-                        rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_parent' + '">';
+                        rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_parent' + '">');
 
                         if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                            rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                            rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                         }
 
-                        rowsHtml += '<td style="';
-                        rowsHtml += 'text-align:left;' + this._getBorderStyle(true,true) + 'cursor:pointer;-webkit-box-sizing: border-box;box-sizing: border-box;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;';
-                        rowsHtml += '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup(\'' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '\',' + i + ',event)' + '">';
-                        rowsHtml += '<img id="' + this.getId() + '-group-fold-icon-' + i + '" src="' + group_icon + '">' + "&nbsp;" + this.changeFormat(row[groupHeaderKey], this.getColumns()[this.groupHeaderIdx].getFormat());
-                        rowsHtml += '</td>';
+                        rowsHtml.push('<td style="');
+                        rowsHtml.push('text-align:left;' + this._getBorderStyle(true,true) + 'cursor:pointer;-webkit-box-sizing: border-box;box-sizing: border-box;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;');
+                        rowsHtml.push('" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup(\'' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '\',' + i + ',event)' + '">');
+                        
+                        rowsHtml.push('<span id="' + this.getId() + '-group-fold-icon-' + i + '" data-rv-open="' + bOpen + '" role="presentation" aria-hidden="true" data-sap-ui-icon-content="' + group_icon.content + '" class="sapMSLIImgIcon sapUiIcon sapUiIconMirrorInRTL" style="font-family:\'SAP-icons\'"></span>');
+                        rowsHtml.push('&nbsp;' + this.changeFormat(row[groupHeaderKey], this.getColumns()[this.groupHeaderIdx].getFormat()));
+                        // rowsHtml.push('<img id="' + this.getId() + '-group-fold-icon-' + i + '" src="' + group_icon + '">' + "&nbsp;" + this.changeFormat(row[groupHeaderKey], this.getColumns()[this.groupHeaderIdx].getFormat()));
+                        rowsHtml.push('</td>');
 
                         
                         for(var j=0 ; j<colLength ; j++){
                             if(this.groupHeaderIdx != j){
-                                rowsHtml += this.renderTableCell(j, "");
+                                rowsHtml.push(this.renderTableCell(j, ""));
                             }
                         }
 
-                        rowsHtml += '</tr>'; 
+                        rowsHtml.push('</tr>'); 
                         
                         preGroupKey = row[groupHeaderKey];
                     }
@@ -3998,20 +4026,20 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                     if(i%2==0) rowStyle = "sapUiTableRowOdd sapUiTableTr";
                     
                     if(this.isStartOpen) {
-                        rowsHtml += '<tr class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                        rowsHtml.push('<tr class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                     }else {
-                        rowsHtml += '<tr class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                        rowsHtml.push('<tr class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                     }
 
                     if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                        rowsHtml += this._getSelectionFieldDom(i);
+                        rowsHtml.push(this._getSelectionFieldDom(i));
                     }
 
-                    rowsHtml += this.renderTableCell(this.groupHeaderIdx, "");
+                    rowsHtml.push(this.renderTableCell(this.groupHeaderIdx, ""));
 
                     for(var j=0 ; j<colLength ; j++){
                         if(!this.isGroup || this.groupHeaderIdx != j){
-                            rowsHtml += this.renderTableCell(j, "", false, "", tRow, i);
+                            rowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));
                         }
 
                         groupSummary = this.calculateGroupSummary(j,groupSummary,row);
@@ -4019,25 +4047,25 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                         totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                         
                     }
-                    rowsHtml += '</tr>'; 
+                    rowsHtml.push('</tr>'); 
                 }
                 
                 if(this.displayRowCount > 0 && this.isGroupSummary(this.groupHeaderIdx) && this.getShowGroupSummary()){
-                    rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';     
+                    rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');     
 
                     if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                        rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                        rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                     }       
 
-                    rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true);
-                    rowsHtml += '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>';
+                    rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true));
+                    rowsHtml.push('"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>');
 
                     for(var j=0 ; j<colLength ; j++){
                         if(this.groupHeaderIdx != j){
-                            rowsHtml += this.makeGroupSummary(j,groupCnt,groupSummary);
+                            rowsHtml.push(this.makeGroupSummary(j,groupCnt,groupSummary));
                         }
                     }
-                    rowsHtml += '</tr>'; 
+                    rowsHtml.push('</tr>'); 
                     
                     groupSummary = [];
                     for(var a=0; a<50 ; a++) groupSummary.push(0);
@@ -4045,23 +4073,23 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                 }
                 
                 if(this.displayRowCount > 0 && this.getShowTotalSummary()){
-                    var totalHtml = '';
-                    totalHtml += '<tr style="background-color:' + this._totalAllBG + ';">';
+                    var totalHtml = [];
+                    totalHtml.push('<tr style="background-color:' + this._totalAllBG + ';">');
 
                     if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                        totalHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                        totalHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                     }
 
-                    totalHtml += this.renderTableCell(this.groupHeaderIdx, this.getTotalSummaryText());
+                    totalHtml.push(this.renderTableCell(this.groupHeaderIdx, this.getTotalSummaryText()));
 
                     for(var j=0 ; j<colLength ; j++){
                         if(this.groupHeaderIdx != j){
-                            totalHtml += this.makeTotalSummary(j,end-start,totalSummary);
+                            totalHtml.push(this.makeTotalSummary(j,end-start,totalSummary));
                         }
                     }
-                    totalHtml += '</tr>'; 
+                    totalHtml.push('</tr>'); 
 
-                    this._totalHtml = totalHtml;
+                    this._totalHtml = totalHtml.join('');
 
                     // if(this.getTotalSummaryLocation().toLowerCase() == "top"){
                     //     rowsHtml = totalHtml + rowsHtml;
@@ -4104,22 +4132,22 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                             if(this.getMergeColumnIndex() > -1){
                                 if(sumLine > -1 && this.getShowGroupSummary()){
                                     for(var j=mergeIndex ; j>=sumLine ; j--){
-                                        rowsHtml += '<tr style="background-color:' + this._totalBG + ';';
-                                        if(sumLine > 0) rowsHtml += 'border-bottom-color:transparent !important;';
-                                        rowsHtml += '">';
+                                        rowsHtml.push('<tr style="background-color:' + this._totalBG + ';');
+                                        if(sumLine > 0) rowsHtml.push('border-bottom-color:transparent !important;');
+                                        rowsHtml.push('">');
 
                                         if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                                            rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                                            rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                                         } 
 
                                         for(var k=0 ; k<colLength ; k++){
-                                            if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat()));
-                                            else if(k == j) rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'; 
-                                            else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                                            else if(k<=sumLine) rowsHtml += '<td class="' + rowStyle + '" style="border-top-color:transparent !important;border-bottom-color:transparent !important;background-color:' + this._tableRowBGColor + ';' + this._getBorderStyle(false,true) + '"></td>';
-                                            else rowsHtml += this.renderTableCell(k,"");
+                                            if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat())));
+                                            else if(k == j) rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'); 
+                                            else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                                            else if(k<=sumLine) rowsHtml.push('<td class="' + rowStyle + '" style="border-top-color:transparent !important;border-bottom-color:transparent !important;background-color:' + this._tableRowBGColor + ';' + this._getBorderStyle(false,true) + '"></td>');
+                                            else rowsHtml.push(this.renderTableCell(k,""));
                                         }
-                                        rowsHtml += '</tr>';
+                                        rowsHtml.push('</tr>');
 
                                         summaryData[j] = [];
                                         mergeCountData[j] = [];
@@ -4150,24 +4178,24 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                             }
                         }
 
-                        rowsHtml += '<tr rowIndex="' + i + '" class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                        rowsHtml.push('<tr rowIndex="' + i + '" class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
 
                         if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                            rowsHtml += this._getSelectionFieldDom(i);
+                            rowsHtml.push(this._getSelectionFieldDom(i));
                         }
 
                         for(var j=0 ; j<colLength ; j++){
                             if(sumLine == -1 && j<=mergeIndex){
-                                rowsHtml += this.renderTableCell(j, "", true);
+                                rowsHtml.push(this.renderTableCell(j, "", true));
                             }else if(sumLine > 0 && j<sumLine){
-                                rowsHtml += this.renderTableCell(j, "", true);
+                                rowsHtml.push(this.renderTableCell(j, "", true));
                             }else{
-                                rowsHtml += this.renderTableCell(j, "", false, "", tRow, i);  
+                                rowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));  
                             }
 
                             totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                         }
-                        rowsHtml += '</tr>';
+                        rowsHtml.push('</tr>');
 
                         for(var j=0 ; j<=mergeIndex ; j++) mergePreText[j] = row[this.getColumns()[j].getKey()];
                        
@@ -4175,19 +4203,19 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                     
                     if(this.displayRowCount > 0 && this.getMergeColumnIndex() > -1 && this.getShowGroupSummary()){
                         for(var j=mergeIndex ; j>=0 ; j--){
-                            rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                            rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
                             if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                                rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                                rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                             } 
 
                             for(var k=0 ; k<colLength ; k++){
-                                if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat()));
-                                else if(k == j) rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'; 
-                                else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                                else if(k<j) rowsHtml += '<td class="' + rowStyle + '" style="border-top-color:transparent !important;background-color:' + this._tableRowBGColor + ';' + this._getBorderStyle(false,true) + '"></td>';
-                                else rowsHtml += this.renderTableCell(k,"");
+                                if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat())));
+                                else if(k == j) rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'); 
+                                else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                                else if(k<j) rowsHtml.push('<td class="' + rowStyle + '" style="border-top-color:transparent !important;background-color:' + this._tableRowBGColor + ';' + this._getBorderStyle(false,true) + '"></td>');
+                                else rowsHtml.push(this.renderTableCell(k,""));
                             }
-                            rowsHtml += '</tr>';
+                            rowsHtml.push('</tr>');
 
                             summaryData[j] = [];
                             mergeCountData[j] = [];
@@ -4197,14 +4225,21 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                     }
                 }else if(this.getTreeColumnIndex() > -1){
                     var groupCnt = 0;
-                    var group_icon = this._getThemedIcon("ico12_closed_plus.gif");
-                    if(this.getTreeStartOpen()) group_icon = this._getThemedIcon("ico12_open_minus.gif");
+
+                    var group_icon = IconPool.getIconInfo('sap-icon://expand');
+                    var bOpen = true;
+                    if(this.getTreeStartOpen()) {
+                        group_icon = IconPool.getIconInfo('sap-icon://collapse');
+                        bOpen = false;
+                    }
+
+
                     
                     var groupSummary = [];
                     for(var a=0; a<50 ; a++) groupSummary.push(0);
                     var preGroupKeys = [];
 
-                    var tRowsHtml = '';
+                    var tRowsHtml = [];
                     var changeTreeIdx = -1;
                     
                     for(var i=start ; i<end ; i++){
@@ -4217,8 +4252,8 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                         var currentGroupKeys = row;
                         var row0 = this.getColumns()[0].getKey();
                         if(this.isChangeTree(preGroupKeys,currentGroupKeys)){
-                            rowsHtml += tRowsHtml;
-                            tRowsHtml = '';
+                            rowsHtml.push(tRowsHtml.join(''));
+                            tRowsHtml = [];
 
                             changeTreeIdx = parseInt(this.getChangeTreeIdx(preGroupKeys,currentGroupKeys));
 
@@ -4226,27 +4261,27 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                                 if(i>start  && this.getShowGroupSummary()){
 
                                     if(this.getGroupSummaryLocation() == "Bottom"){
-                                        rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                                        rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
 
                                         if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                                            rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                                            rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                                         } 
 
                                         
 
                                         for(var k=0 ; k<colLength ; k++){
                                             if(this.getColumns()[k].getGroupSummary() == "average") {
-                                                rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat()));
+                                                rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat())));
                                             }else if(k == j) {
-                                                rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'; 
+                                                rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'); 
                                             }else if(this.getColumns()[k].getGroupSummary() != "none") {
-                                                rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
+                                                rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
                                             }else {
-                                                rowsHtml += this.renderTableCell(k,"");
+                                                rowsHtml.push(this.renderTableCell(k,""));
                                             }
                                         }
 
-                                        rowsHtml += '</tr>';
+                                        rowsHtml.push('</tr>');
                                     }
 
                                     var groupSummaryTdData = {};
@@ -4277,29 +4312,33 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                                 
                                 var rowK = this.getColumns()[k].getKey();
 
-                                if(k == 0) rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">';
-                                else if(this.getTreeStartOpen()) rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="open" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">';
-                                else rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="close" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">';
+                                if(k == 0) rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">');
+                                else if(this.getTreeStartOpen()) rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="open" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">');
+                                else rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="close" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">');
 
                                 for(var j=0 ; j<k ; j++){
-                                    rowsHtml += this.renderTableCell(j, "");
+                                    rowsHtml.push(this.renderTableCell(j, ""));
                                 }
 
                                 if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                                    rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                                    rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                                 } 
                                 
-                                rowsHtml += '<td style="';
-                                rowsHtml += 'text-align:left;' + this._getBorderStyle(true,true) + 'vertical-align:middle;cursor:pointer;';
-                                rowsHtml += '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup2(\'' + this.gridName + '_' + this.trim(row[row0]) + '\',' + k + ',' + i + ',event)' + '">';
-                                rowsHtml += '<img id="' + this.getId() + '-tree-fold-icon-' + i + '" src="' + group_icon + '">' + "&nbsp;" + this.changeFormat(row[rowK], this.getColumns()[k].getFormat());
-                                rowsHtml += '</td>';
+                                rowsHtml.push('<td style="');
+                                rowsHtml.push('text-align:left;' + this._getBorderStyle(true,true) + 'vertical-align:middle;cursor:pointer;');
+                                rowsHtml.push('" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup2(\'' + this.gridName + '_' + this.trim(row[row0]) + '\',' + k + ',' + i + ',event)' + '">');
+                                
+
+                                rowsHtml.push('<span id="' + this.getId() + '-tree-fold-icon-' + i + '" data-rv-open="' + bOpen + '" role="presentation" aria-hidden="true" data-sap-ui-icon-content="' + group_icon.content + '" class="sapMSLIImgIcon sapUiIcon sapUiIconMirrorInRTL" style="font-family:\'SAP-icons\'"></span>');
+                                rowsHtml.push('&nbsp;' + this.changeFormat(row[rowK], this.getColumns()[k].getFormat()));
+                                // rowsHtml.push('<img id="' + this.getId() + '-tree-fold-icon-' + i + '" src="' + group_icon + '">' + "&nbsp;" + this.changeFormat(row[rowK], this.getColumns()[k].getFormat()));
+                                rowsHtml.push('</td>');
                                 
                                 for(var j=k+1 ; j<colLength ; j++){
-                                    rowsHtml += this.renderTableCell(j, "");
+                                    rowsHtml.push(this.renderTableCell(j, ""));
                                 }
                  
-                                rowsHtml += '</tr>'; 
+                                rowsHtml.push('</tr>'); 
                             }
                         }
                         preGroupKeys = currentGroupKeys;
@@ -4309,17 +4348,17 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                         if(i%2==0) rowStyle = "sapUiTableRowOdd sapUiTableTr";
 
                         if(this.getTreeStartOpen()) {
-                            tRowsHtml += '<tr tree_status="open" class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                            tRowsHtml.push('<tr tree_status="open" class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                         }else {
-                            tRowsHtml += '<tr tree_status="close" class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                            tRowsHtml.push('<tr tree_status="close" class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                         }
 
                         if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                            tRowsHtml += this._getSelectionFieldDom(i);
+                            tRowsHtml.push(this._getSelectionFieldDom(i));
                         }
 
                         for(var j=0 ; j<=this.getTreeColumnIndex() ; j++){   
-                            tRowsHtml += this.renderTableCell(j, "");
+                            tRowsHtml.push(this.renderTableCell(j, ""));
 
                             for(var t=this.getTreeColumnIndex()+1 ; t<colLength ; t++){
                                 if(this.getColumns()[t].getGroupSummary() == "min" && j==0){
@@ -4342,30 +4381,30 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                         }
 
                         for(var j=this.getTreeColumnIndex()+1 ; j<colLength ; j++){  
-                            tRowsHtml += this.renderTableCell(j, "", false, "", tRow, i);
+                            tRowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));
 
                             totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                         }
-                        tRowsHtml += '</tr>'; 
+                        tRowsHtml.push('</tr>'); 
                     }
 
-                    rowsHtml += tRowsHtml;
+                    rowsHtml.push(tRowsHtml.join(''));
                     if(this.getRows().length > 0 && this.getTreeColumnIndex() > -1 && this.getShowGroupSummary()){
                         for(var j=this.getTreeColumnIndex() ; j>=0 ; j--){
                             if(this.getGroupSummaryLocation() == "Bottom"){
-                                rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                                rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
 
                                 if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                                    rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                                    rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                                 } 
 
                                 for(var k=0 ; k<colLength ; k++){
-                                    if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat()));
-                                    else if(k == j) rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>';
-                                    else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                                    else rowsHtml += this.renderTableCell(k,"");
+                                    if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat())));
+                                    else if(k == j) rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>');
+                                    else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                                    else rowsHtml.push(this.renderTableCell(k,""));
                                 }
-                                rowsHtml += '</tr>';
+                                rowsHtml.push('</tr>');
                             }
 
                             var groupSummaryTdData = {};
@@ -4397,20 +4436,20 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                         var rowStyle = "sapUiTableRowEven sapUiTableTr";
                         if(i%2==0) rowStyle = "sapUiTableRowOdd sapUiTableTr";
 
-                        rowsHtml += '<tr class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                        rowsHtml.push('<tr class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                         
                         if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                            rowsHtml += this._getSelectionFieldDom(i);
+                            rowsHtml.push(this._getSelectionFieldDom(i));
                         }
 
 
 
                         for(var j=0 ; j<colLength ; j++){
-                            rowsHtml += this.renderTableCell(j, "", false, "", tRow, i);
+                            rowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));
 
                             totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                         }
-                        rowsHtml += '</tr>'; 
+                        rowsHtml.push('</tr>'); 
                     }
                 }
 
@@ -4453,10 +4492,9 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                     }
                 }
             }
-            rowsHtml = tbHtml + rowsHtml;
-            rowsHtml += '</tbody></table>';
+            rowsHtml = [tbHtml.join('') + rowsHtml.join('') + '</tbody></table>'];
 
-            this._totalHtml = totalTbHtml + this._totalHtml + '</tbody></table>';
+            this._totalHtml = totalTbHtml.join('') + this._totalHtml + '</tbody></table>';
         }
         
     }else if(this.gridType == 1){
@@ -4471,62 +4509,62 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
             if(titleMaxLength < this.getColumns()[i].getTitle().length) titleMaxLength = this.getColumns()[i].getTitle().length;
         }
 
-        rowsHtml += '<table class="sapui6_table_scroll_tb" cellpadding="0">';
-        rowsHtml += '       <tr>';
-        rowsHtml += '           <td style="vertical-align:top;">';
+        rowsHtml.push('<table class="sapui6_table_scroll_tb" cellpadding="0">');
+        rowsHtml.push('       <tr>');
+        rowsHtml.push('           <td style="vertical-align:top;">');
         if(sap.ui.Device.browser.msie) borderRight = "border-right:1px solid #ddd;";
-        rowsHtml += '               <div id="' + this.gridName + '_tbodyDiv1" style="overflow-x:hidden;overflow-y:hidden;' + borderRight + '">';
-        rowsHtml += '                   <table id="' + this.gridName + '_tbodyTb1" style="width:' + (titleMaxLength*12) + 'px;" class="sapui6_pivottable_tb">';
-        rowsHtml += '                       <tbody>';
+        rowsHtml.push('               <div id="' + this.gridName + '_tbodyDiv1" style="overflow-x:hidden;overflow-y:hidden;' + borderRight + '">');
+        rowsHtml.push('                   <table id="' + this.gridName + '_tbodyTb1" style="width:' + (titleMaxLength*12) + 'px;" class="sapui6_pivottable_tb">');
+        rowsHtml.push('                       <tbody>');
 
         for(var i=0 ; i<headerLength ; i++){
             if(i%2==0) rowStyle = "sapUiTableRowEven sapUiTableTr";
             else rowStyle = "sapUiTableRowOdd sapUiTableTr";
 
             if(this.getColumns()[i].getVisible()){
-                rowsHtml += '<tr class="' + rowStyle + '">';
-                rowsHtml += '<td style="text-align:right;width:' + (titleMaxLength*12) + 'px;font-weight:bold;border-right-width:2px;border-right-style:solid;border-top-color:' + this._borderColor + ';border-right-color:' + this._borderColor + ';border-top-style:' + this.getRowBorderStyle() + ';"><div class="sapUiTableCell" style="height:initial;">' + this.getColumns()[i].getTitle() + '</div></td>';
-                rowsHtml += '</tr>';
+                rowsHtml.push('<tr class="' + rowStyle + '">');
+                rowsHtml.push('<td style="text-align:right;width:' + (titleMaxLength*12) + 'px;font-weight:bold;border-right-width:2px;border-right-style:solid;border-top-color:' + this._borderColor + ';border-right-color:' + this._borderColor + ';border-top-style:' + this.getRowBorderStyle() + ';"><div class="sapUiTableCell" style="height:initial;">' + this.getColumns()[i].getTitle() + '</div></td>');
+                rowsHtml.push('</tr>');
             }
         }
         
-        rowsHtml += '                       </tbody>';
-        rowsHtml += '                   </table>';
-        rowsHtml += '               </div>';
-        rowsHtml += '           </td>';
-        rowsHtml += '           <td>';
-        rowsHtml += '               <div id="' + this.gridName + '_tbodyDiv2" style="overflow-x:auto;overflow-y:auto;">';
-        rowsHtml += '                   <table id="' + this.gridName + '_tbodyTb2" class="sapui6_pivottable_tb">';
-        rowsHtml += '                       <tbody>';
+        rowsHtml.push('                       </tbody>');
+        rowsHtml.push('                   </table>');
+        rowsHtml.push('               </div>');
+        rowsHtml.push('           </td>');
+        rowsHtml.push('           <td>');
+        rowsHtml.push('               <div id="' + this.gridName + '_tbodyDiv2" style="overflow-x:auto;overflow-y:auto;">');
+        rowsHtml.push('                   <table id="' + this.gridName + '_tbodyTb2" class="sapui6_pivottable_tb">');
+        rowsHtml.push('                       <tbody>');
         
         for(var i=0 ; i<headerLength ; i++){
             if(i%2==0) rowStyle = "sapUiTableRowEven sapUiTableTr";
             else rowStyle = "sapUiTableRowOdd sapUiTableTr";
 
             if(this.getColumns()[i].getVisible()){
-                rowsHtml += '<tr class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                rowsHtml.push('<tr class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                 for(var j=0 ; j<rLength ; j++){
                     var row = data[j];
                     var tRow = this.getRows()[j];
-                    rowsHtml += this.renderTableCell(i, "", false, maxWidth + "px", tRow);
+                    rowsHtml.push(this.renderTableCell(i, "", false, maxWidth + "px", tRow));
                 }
-                rowsHtml += '</tr>';
+                rowsHtml.push('</tr>');
             }
         }
         
-        rowsHtml += '                       </tbody>';
-        rowsHtml += '                   </table>';
-        rowsHtml += '               </div>';
-        rowsHtml += '           </td>';
-        rowsHtml += '       </tr>';
-        rowsHtml += '   </table>';
+        rowsHtml.push('                       </tbody>');
+        rowsHtml.push('                   </table>');
+        rowsHtml.push('               </div>');
+        rowsHtml.push('           </td>');
+        rowsHtml.push('       </tr>');
+        rowsHtml.push('   </table>');
     }else if(this.gridType == 2){
-        rowsHtml += '   <table class="sapui6_mtable_tb" id="' + this.gridName + '_dt">';
-        rowsHtml += '       <colgroup>';
-        rowsHtml += '           <col style="width:50%;">';
-        rowsHtml += '           <col style="width:50%;">';
-        rowsHtml += '       </colgroup>';
-        rowsHtml += '       <tbody>';
+        rowsHtml.push('   <table class="sapui6_mtable_tb" id="' + this.gridName + '_dt">');
+        rowsHtml.push('       <colgroup>');
+        rowsHtml.push('           <col style="width:50%;">');
+        rowsHtml.push('           <col style="width:50%;">');
+        rowsHtml.push('       </colgroup>');
+        rowsHtml.push('       <tbody>');
 
         for(var i=start ; i<end ; i++){
             var row = data[i];
@@ -4542,24 +4580,24 @@ sapui6.ui.table.Table.prototype.renderTableRow = function(newDataArr){
                 if(j == (colLength-1)) rowStyle = "last_tr";
                 
                 if(this.getColumns()[j].getVisible()){
-                    rowsHtml += '<tr class="' + rowStyle + '">';    
-                    rowsHtml += '   <td style="width:50%;text-align:right;font-weight:bold;' + this._getBorderStyle(true,true) + '">' + this.getColumns()[j].getTitle() + '</td>';
+                    rowsHtml.push('<tr class="' + rowStyle + '">');    
+                    rowsHtml.push('   <td style="width:50%;text-align:right;font-weight:bold;' + this._getBorderStyle(true,true) + '">' + this.getColumns()[j].getTitle() + '</td>');
                     
-                    rowsHtml += this.renderTableCell(j, "", false, maxWidth + "px", tRow);               
-                    rowsHtml += '</tr>';
+                    rowsHtml.push(this.renderTableCell(j, "", false, maxWidth + "px", tRow));               
+                    rowsHtml.push('</tr>');
                 }
             }
         }
 
-        rowsHtml += '</table>';
+        rowsHtml.push('</table>');
     }
     
-    return rowsHtml;
+    return rowsHtml.join('');
 };
 
 sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
     var data;
-    var rowsHtml = "";
+    var rowsHtml = [];
 
     if(newDataArr != undefined && newDataArr != null) data = newDataArr;
     else data = this.dataArr;
@@ -4628,48 +4666,55 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
 
     this.displayDataArr = [];
 
+    var IconPool = sap.ui.requireSync("sap/ui/core/IconPool");
 
-    var tbHtml = '';
-    var totalTbHtml = '';
-    tbHtml += '<table id="' + this.gridName + '_dt1" class="sapui6_table_tb sapUiTableCtrl" style="border-color:' + this._borderColor + ';">';
-    tbHtml += '<colgroup>';
 
-    totalTbHtml += '<table id="' + this.gridName + '_tt1" class="sapui6_table_tb sapUiTableCtrl" style="border-color:' + this._borderColor + ';">';
-    totalTbHtml += '<colgroup>';
+    var tbHtml = [];
+    var totalTbHtml = [];
+    tbHtml.push('<table id="' + this.gridName + '_dt1" class="sapui6_table_tb sapUiTableCtrl" style="border-color:' + this._borderColor + ';">');
+    tbHtml.push('<colgroup>');
+
+    totalTbHtml.push('<table id="' + this.gridName + '_tt1" class="sapui6_table_tb sapUiTableCtrl" style="border-color:' + this._borderColor + ';">');
+    totalTbHtml.push('<colgroup>');
 
     if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-        tbHtml += '<col style="width:45px;max-width:45px;min-width:45px;" />';
-        totalTbHtml += '<col style="width:45px;max-width:45px;min-width:45px;" />';
+        tbHtml.push('<col style="width:45px;max-width:45px;min-width:45px;" />');
+        totalTbHtml.push('<col style="width:45px;max-width:45px;min-width:45px;" />');
     }
 
     if(this.isGroup){
-        tbHtml += '         <col style="width:' + this.getColumns()[this.groupHeaderIdx].getWidth() + ';" />';
-        totalTbHtml += '         <col style="width:' + this.getColumns()[this.groupHeaderIdx].getWidth() + ';" />';
+        tbHtml.push('         <col style="width:' + this.getColumns()[this.groupHeaderIdx].getWidth() + ';" />');
+        totalTbHtml.push('         <col style="width:' + this.getColumns()[this.groupHeaderIdx].getWidth() + ';" />');
     }
     
     for(var i=0 ; i<=this.getFixedColumnIndex() ; i++){
         if(!this.isGroup || this.groupHeaderIdx != i){
             if(this.getColumns()[i].getVisible()){
-                tbHtml += '           <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />';
-                totalTbHtml += '           <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />';
+                tbHtml.push('           <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />');
+                totalTbHtml.push('           <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />');
             }else if(!this.getColumns()[i].getVisible()){
-                tbHtml += '           <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />';
-                totalTbHtml += '           <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />';
+                tbHtml.push('           <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />');
+                totalTbHtml.push('           <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />');
             }else {
-                tbHtml += '            <col style="width:' + this.getColumns()[i].getWidth() + ';" />';
-                totalTbHtml += '            <col style="width:' + this.getColumns()[i].getWidth() + ';" />';
+                tbHtml.push('            <col style="width:' + this.getColumns()[i].getWidth() + ';" />');
+                totalTbHtml.push('            <col style="width:' + this.getColumns()[i].getWidth() + ';" />');
             }
         }
     }
-    tbHtml += '                     </colgroup>';
-    tbHtml += '                     <tbody>';
-    totalTbHtml += '                     </colgroup>';
-    totalTbHtml += '                     <tbody>';
+    tbHtml.push('                     </colgroup>');
+    tbHtml.push('                     <tbody>');
+    totalTbHtml.push('                     </colgroup>');
+    totalTbHtml.push('                     <tbody>');
     
     if(this.isGroup){
         var groupCnt = 0;
-        var group_icon = this._getThemedIcon("ico12_closed_plus.gif");
-        if(this.isStartOpen) group_icon = this._getThemedIcon("ico12_open_minus.gif");
+
+        var group_icon = IconPool.getIconInfo('sap-icon://expand');
+        var bOpen = true;
+        if(this.isStartOpen) {
+            group_icon = IconPool.getIconInfo('sap-icon://collapse');
+            bOpen = false;
+        }
         
         var groupSummary = [];
         for(var a=0; a<50 ; a++) groupSummary.push(0);
@@ -4686,20 +4731,20 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
             if(row[groupHeaderKey] != preGroupKey){
                 if(i > 0){
                     if(this.isGroupSummary(this.groupHeaderIdx) && this.getShowGroupSummary()){
-                        rowsHtml += '<tr style="background-color:' + this._totalBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_summary' + '">';
+                        rowsHtml.push('<tr style="background-color:' + this._totalBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_summary' + '">');
                         
                         if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                            rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">&nbsp;</div></td>';
+                            rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">&nbsp;</div></td>');
                         } 
-                        rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true);     
-                        rowsHtml += '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>';
+                        rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true));     
+                        rowsHtml.push('"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>');
         
                         for(var j=0 ; j<=this.getFixedColumnIndex() ; j++){
                             if(this.groupHeaderIdx != j){
-                                rowsHtml += this.makeGroupSummary(j,groupCnt,groupSummary);
+                                rowsHtml.push(this.makeGroupSummary(j,groupCnt,groupSummary));
                             }
                         }
-                        rowsHtml += '</tr>'; 
+                        rowsHtml.push('</tr>'); 
                         
                         groupSummary = [];
                         for(var a=0; a<50 ; a++) groupSummary.push(0);
@@ -4707,25 +4752,26 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
                     }
                 }
                 
-                rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_parent' + '">';                
+                rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_parent' + '">');                
                 
                 if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                    rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                    rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
                 }
 
-                rowsHtml += '<td style="';
-                rowsHtml += 'text-align:left;' + this._getBorderStyle(true,true) + 'cursor:pointer;-webkit-box-sizing: border-box;box-sizing: border-box;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;';
-                rowsHtml += '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup(\'' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '\',' + i + ',event)' + '">';
-                rowsHtml += '<img id="' + this.getId() + '-group-fold-icon-' + i + '" src="' + group_icon + '">' + "&nbsp;" + this.changeFormat(row[groupHeaderKey], this.getColumns()[this.groupHeaderIdx].getFormat());
-                rowsHtml += '</td>';
+                rowsHtml.push('<td style="');
+                rowsHtml.push('text-align:left;' + this._getBorderStyle(true,true) + 'cursor:pointer;-webkit-box-sizing: border-box;box-sizing: border-box;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;');
+                rowsHtml.push('" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup(\'' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '\',' + i + ',event)' + '">');
+                rowsHtml.push('<span id="' + this.getId() + '-group-fold-icon-' + i + '" data-rv-open="' + bOpen + '" role="presentation" aria-hidden="true" data-sap-ui-icon-content="' + group_icon.content + '" class="sapMSLIImgIcon sapUiIcon sapUiIconMirrorInRTL" style="font-family:\'SAP-icons\'"></span>');
+                rowsHtml.push('&nbsp;' + this.changeFormat(row[groupHeaderKey], this.getColumns()[this.groupHeaderIdx].getFormat()));
+                rowsHtml.push('</td>');
 
                 for(var j=0 ; j<=this.getFixedColumnIndex() ; j++){
                     if(this.groupHeaderIdx != j){
-                        rowsHtml += this.renderTableCell(j, "");
+                        rowsHtml.push(this.renderTableCell(j, ""));
                     }
                 }
         
-                rowsHtml += '</tr>'; 
+                rowsHtml.push('</tr>'); 
                 
                 preGroupKey = row[groupHeaderKey];
             }
@@ -4735,44 +4781,44 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
             if(i%2==0) rowStyle = "sapUiTableRowOdd sapUiTableTr";
             
             if(this.isStartOpen) {
-                rowsHtml += '<tr class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                rowsHtml.push('<tr class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
             }else {
-                rowsHtml += '<tr class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                rowsHtml.push('<tr class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
             }  
 
             if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                rowsHtml += this._getSelectionFieldDom(i);
+                rowsHtml.push(this._getSelectionFieldDom(i));
             }
 
-            rowsHtml += this.renderTableCell(this.groupHeaderIdx, "");
+            rowsHtml.push(this.renderTableCell(this.groupHeaderIdx, ""));
 
             for(var j=0 ; j<=this.getFixedColumnIndex() ; j++){
                 if(!this.isGroup || this.groupHeaderIdx != j){
-                    rowsHtml += this.renderTableCell(j, "", false, "", tRow, i);
+                    rowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));
                 }
 
                 groupSummary = this.calculateGroupSummary(j,groupSummary,row);
                 totalSummary = this.calculateTotalSummary(j,totalSummary,row);
             }
-            rowsHtml += '</tr>'; 
+            rowsHtml.push('</tr>'); 
         }
 
         if(this.displayRowCount > 0 && this.isGroupSummary(this.groupHeaderIdx) && this.getShowGroupSummary()){
-            rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+            rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
             
             if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                rowsHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                rowsHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
             } 
 
-            rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true);     
-            rowsHtml += '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>';
+            rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true));     
+            rowsHtml.push('"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>');
 
             for(var j=0 ; j<=this.getFixedColumnIndex() ; j++){
                 if(this.groupHeaderIdx != j){
-                    rowsHtml += this.makeGroupSummary(j,groupCnt,groupSummary);
+                    rowsHtml.push(this.makeGroupSummary(j,groupCnt,groupSummary));
                 }
             }
-            rowsHtml += '</tr>'; 
+            rowsHtml.push('</tr>'); 
             
             groupSummary = [];
             for(var a=0; a<50 ; a++) groupSummary.push(0);
@@ -4780,24 +4826,24 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
         }
 
         if(this.displayRowCount > 0 && this.getShowTotalSummary() && this.getShowGroupSummary()){
-            var totalHtml = '';
+            var totalHtml = [];
 
-            totalHtml += '<tr style="background-color:' + this._totalAllBG + ';">';
+            totalHtml.push('<tr style="background-color:' + this._totalAllBG + ';">');
 
             if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                totalHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                totalHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
             } 
 
-            totalHtml += this.renderTableCell(this.groupHeaderIdx, "");
+            totalHtml.push(this.renderTableCell(this.groupHeaderIdx, ""));
 
             for(var j=0 ; j<=this.getFixedColumnIndex() ; j++){
                 if(this.groupHeaderIdx != j){
-                    totalHtml += this.makeTotalSummary(j,end-start,totalSummary);
+                    totalHtml.push(this.makeTotalSummary(j,end-start,totalSummary));
                 }
             }
-            totalHtml += '</tr>'; 
+            totalHtml.push('</tr>'); 
 
-            this._leftTotalHtml += totalHtml;
+            this._leftTotalHtml += totalHtml.join('');
             
             totalSummary = [];
             for(var a=0; a<50 ; a++) totalSummary.push(0);
@@ -4837,18 +4883,18 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
                     if(this.getMergeColumnIndex() > -1){
                         if(sumLine > -1 && this.getShowGroupSummary()){
                             for(var j=mergeIndex ; j>=sumLine ; j--){
-                                rowsHtml += '<tr style="background-color:' + this._totalBG + ';';
-                                if(sumLine > 0) rowsHtml += 'border-top-color:transparent !important;';
-                                rowsHtml += '">';
+                                rowsHtml.push('<tr style="background-color:' + this._totalBG + ';');
+                                if(sumLine > 0) rowsHtml.push('border-top-color:transparent !important;');
+                                rowsHtml.push('">');
 
                                 for(var k=0 ; k<=this.getFixedColumnIndex() ; k++){
-                                    if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat()));
-                                    else if(k == j) rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'; 
-                                    else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                                    else if(k<=sumLine) rowsHtml += '<td class="' + rowStyle + '" style="border-top-color:transparent !important;background-color:' + this._tableRowBGColor + ';' + this._getBorderStyle(false,true) + '"></td>';
-                                    else rowsHtml += this.renderTableCell(k,"");
+                                    if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat())));
+                                    else if(k == j) rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'); 
+                                    else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                                    else if(k<=sumLine) rowsHtml.push('<td class="' + rowStyle + '" style="border-top-color:transparent !important;background-color:' + this._tableRowBGColor + ';' + this._getBorderStyle(false,true) + '"></td>');
+                                    else rowsHtml.push(this.renderTableCell(k,""));
                                 }
-                                rowsHtml += '</tr>';
+                                rowsHtml.push('</tr>');
 
                                 summaryData[j] = [];
                                 mergeCountData[j] = [];
@@ -4880,20 +4926,20 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
                     }
                 }
 
-                rowsHtml += '<tr rowIndex="' + i + '" class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                rowsHtml.push('<tr rowIndex="' + i + '" class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
 
                 for(var j=0 ; j<=this.getFixedColumnIndex() ; j++){
                     if(sumLine == -1 && j<=endIndex){
-                        rowsHtml += this.renderTableCell(j, "", true);
+                        rowsHtml.push(this.renderTableCell(j, "", true));
                     }else if(sumLine > 0 && j<sumLine){
-                        rowsHtml += this.renderTableCell(j, "", false);
+                        rowsHtml.push(this.renderTableCell(j, "", false));
                     }else{
-                        rowsHtml += this.renderTableCell(j, "", false, "", tRow, i);  
+                        rowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));  
                     }
 
                     totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                 }
-                rowsHtml += '</tr>';
+                rowsHtml.push('</tr>');
 
                 for(var j=0 ; j<=mergeIndex ; j++) mergePreText[j] = row[this.getColumns()[j].getKey()];
                 
@@ -4901,16 +4947,16 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
 
             if(this.displayRowCount > 0 && this.getMergeColumnIndex() > -1 && this.getShowGroupSummary()){
                 for(var j=mergeIndex ; j>=0 ; j--){
-                    rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                    rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
 
                     for(var k=0 ; k<=this.getFixedColumnIndex() ; k++){
-                        if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat()));
-                        else if(k == j) rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'; 
-                        else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                        else if(k<j) rowsHtml += '<td class="' + rowStyle + '" style="border-top-color:transparent !important;background-color:' + this._tableRowBGColor + ';' + this._getBorderStyle(false,true) + '"></td>';
-                        else rowsHtml += this.renderTableCell(k,"");
+                        if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat())));
+                        else if(k == j) rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'); 
+                        else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                        else if(k<j) rowsHtml.push('<td class="' + rowStyle + '" style="border-top-color:transparent !important;background-color:' + this._tableRowBGColor + ';' + this._getBorderStyle(false,true) + '"></td>');
+                        else rowsHtml.push(this.renderTableCell(k,""));
                     }
-                    rowsHtml += '</tr>';
+                    rowsHtml.push('</tr>');
 
                     summaryData[j] = [];
                     mergeCountData[j] = [];
@@ -4920,14 +4966,18 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
             }
         }else if(this.getTreeColumnIndex() > -1){
             var groupCnt = 0;
-            var group_icon = this._getThemedIcon("ico12_closed_plus.gif");
-            if(this.getTreeStartOpen()) group_icon = this._getThemedIcon("ico12_open_minus.gif");
+            var group_icon = IconPool.getIconInfo('sap-icon://expand');
+            var bOpen = true;
+            if(this.getTreeStartOpen()) {
+                group_icon = IconPool.getIconInfo('sap-icon://collapse');
+                bOpen = false;
+            }
             
             var groupSummary = [];
             for(var a=0; a<50 ; a++) groupSummary.push(0);
             var preGroupKeys = [];
 
-            var tRowsHtml = '';
+            var tRowsHtml = [];
             var changeTreeIdx = -1;
             var iFixedColumnIndex = this.getFixedColumnIndex();
             
@@ -4941,23 +4991,23 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
                 var currentGroupKeys = row;
                 var row0 = this.getColumns()[0].getKey();
                 if(this.isChangeTree(preGroupKeys,currentGroupKeys)){
-                    rowsHtml += tRowsHtml;
-                    tRowsHtml = '';
+                    rowsHtml.push(tRowsHtml);
+                    tRowsHtml = [];
 
                     changeTreeIdx = parseInt(this.getChangeTreeIdx(preGroupKeys,currentGroupKeys));
 
                     for(var j=this.getTreeColumnIndex() ; j>=changeTreeIdx ; j--){
                         if(i>start && this.getShowGroupSummary()){
                             if(this.getGroupSummaryLocation() == "Bottom"){
-                                rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                                rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
 
                                 for(var k=0 ; k<=iFixedColumnIndex ; k++){
-                                    if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat()));
-                                    else if(k == j) rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>';
-                                    else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                                    else rowsHtml += this.renderTableCell(k,"");
+                                    if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat())));
+                                    else if(k == j) rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>');
+                                    else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                                    else rowsHtml.push(this.renderTableCell(k,""));
                                 }
-                                rowsHtml += '</tr>';
+                                rowsHtml.push('</tr>');
                             }
                             
                             var groupSummaryTdData = {};
@@ -4986,25 +5036,26 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
                         
                         var rowK = this.getColumns()[k].getKey();
 
-                        if(k == 0) rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">';
-                        else if(this.getTreeStartOpen()) rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="open" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">';
-                        else rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="close" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">';
+                        if(k == 0) rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">');
+                        else if(this.getTreeStartOpen()) rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="open" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">');
+                        else rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="close" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">');
 
                         for(var j=0 ; j<k ; j++){
-                            rowsHtml += this.renderTableCell(j, "");
+                            rowsHtml.push(this.renderTableCell(j, ""));
                         }
                         
-                        rowsHtml += '<td style="';
-                        rowsHtml += 'text-align:left;' + this._getBorderStyle(true,true) + 'vertical-align:middle;cursor:pointer;';
-                        rowsHtml += '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup2(\'' + this.gridName + '_' + this.trim(row[row0]) + '\',' + k + ',' + i + ',event)' + '">';
-                        rowsHtml += '<img id="' + this.getId() + '-tree-fold-icon-' + i + '" src="' + group_icon + '">' + "&nbsp;" + this.changeFormat(row[rowK], this.getColumns()[k].getFormat());
-                        rowsHtml += '</td>';
+                        rowsHtml.push('<td style="');
+                        rowsHtml.push('text-align:left;' + this._getBorderStyle(true,true) + 'vertical-align:middle;cursor:pointer;');
+                        rowsHtml.push('" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup2(\'' + this.gridName + '_' + this.trim(row[row0]) + '\',' + k + ',' + i + ',event)' + '">');
+                        rowsHtml.push('<span id="' + this.getId() + '-tree-fold-icon-' + i + '" data-rv-open="' + bOpen + '" role="presentation" aria-hidden="true" data-sap-ui-icon-content="' + group_icon.content + '" class="sapMSLIImgIcon sapUiIcon sapUiIconMirrorInRTL" style="font-family:\'SAP-icons\'"></span>');
+                        rowsHtml.push('&nbsp;' + this.changeFormat(row[rowK], this.getColumns()[k].getFormat()));
+                        rowsHtml.push('</td>');
                         
                         for(var j=k+1 ; j<=iFixedColumnIndex ; j++){
-                            rowsHtml += this.renderTableCell(j, "");
+                            rowsHtml.push(this.renderTableCell(j, ""));
                         }
          
-                        rowsHtml += '</tr>'; 
+                        rowsHtml.push('</tr>'); 
                     }
                 }
                 preGroupKeys = currentGroupKeys;
@@ -5014,13 +5065,13 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
                 if(i%2==0) rowStyle = "sapUiTableRowOdd sapUiTableTr";
 
                 if(this.getTreeStartOpen()) {
-                    tRowsHtml += '<tr tree_status="open" class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                    tRowsHtml.push('<tr tree_status="open" class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                 }else {
-                    tRowsHtml += '<tr tree_status="close" class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                    tRowsHtml.push('<tr tree_status="close" class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                 }
 
                 for(var j=0 ; j<=this.getTreeColumnIndex() ; j++){   
-                    tRowsHtml += this.renderTableCell(j, "");
+                    tRowsHtml.push(this.renderTableCell(j, ""));
 
                     for(var t=this.getTreeColumnIndex()+1 ; t<=iFixedColumnIndex ; t++){
                         if(this.getColumns()[t].getGroupSummary() == "min" && j==0){
@@ -5043,26 +5094,26 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
                 }
 
                 for(var j=this.getTreeColumnIndex()+1 ; j<=iFixedColumnIndex ; j++){  
-                    tRowsHtml += this.renderTableCell(j, "", false, "", tRow, i);
+                    tRowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));
 
                     totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                 }
-                tRowsHtml += '</tr>'; 
+                tRowsHtml.push('</tr>'); 
             }
 
-            rowsHtml += tRowsHtml;
+            rowsHtml.push(tRowsHtml.join(''));
             if(this.getRows().length > 0 && this.getTreeColumnIndex() > -1 && this.getShowGroupSummary()){
                 for(var j=this.getTreeColumnIndex() ; j>=0 ; j--){
                     if(this.getGroupSummaryLocation() == "Bottom"){
-                        rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                        rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
 
                         for(var k=0 ; k<=iFixedColumnIndex ; k++){
-                            if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat()));
-                            else if(k == j) rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>';
-                            else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                            else rowsHtml += this.renderTableCell(k,"");
+                            if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat())));
+                            else if(k == j) rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>');
+                            else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                            else rowsHtml.push(this.renderTableCell(k,""));
                         }
-                        rowsHtml += '</tr>';
+                        rowsHtml.push('</tr>');
                     }
 
                     var groupSummaryTdData = {};
@@ -5092,47 +5143,47 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
                 var rowStyle = "sapUiTableRowEven sapUiTableTr";
                 if(i%2==0) rowStyle = "sapUiTableRowOdd sapUiTableTr";
 
-                rowsHtml += '<tr class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                rowsHtml.push('<tr class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
 
                 if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                    rowsHtml += this._getSelectionFieldDom(i);
+                    rowsHtml.push(this._getSelectionFieldDom(i));
                 }
 
                 for(var j=0 ; j<=this.getFixedColumnIndex() ; j++){
-                    rowsHtml += this.renderTableCell(j, "", false, "", tRow, i);
+                    rowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));
                     
                     totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                 }
-                rowsHtml += '</tr>'; 
+                rowsHtml.push('</tr>'); 
             }
         }
 
         if(this.displayRowCount > 0 && this.getShowTotalSummary()){
-            var totalHtml = '';
+            var totalHtml = [];
             
-            totalHtml += '<tr style="background-color:' + this._totalAllBG + ';">';
+            totalHtml.push('<tr style="background-color:' + this._totalAllBG + ';">');
 
             if(this.getSelectionMode() && (this.getSelectionMode().toLowerCase() == "multiple" || this.getSelectionMode().toLowerCase() == "single")){
-                totalHtml += '<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>';
+                totalHtml.push('<td style="text-align:center;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;"></div></td>');
             } 
 
             var j = 0;
             if(this.getTotalSummaryFormula(0) == "none"){
                 if(!this.getColumns()[0].getVisible()){
-                    totalHtml += '<td style="text-align:right;display:none;' + this._getBorderStyle(true,true) + '">' + this.getTotalSummaryText() + '</td>';
+                    totalHtml.push('<td style="text-align:right;display:none;' + this._getBorderStyle(true,true) + '">' + this.getTotalSummaryText() + '</td>');
                 }else{
-                    totalHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '">' + this.getTotalSummaryText() + '</td>';
+                    totalHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '">' + this.getTotalSummaryText() + '</td>');
                 }
                 
                 j = 1;
             }
 
             for(j ; j<=this.getFixedColumnIndex() ; j++){
-                totalHtml += this.makeTotalSummary(j,end-start,totalSummary);
+                totalHtml.push(this.makeTotalSummary(j,end-start,totalSummary));
             }
 
-            totalHtml += '</tr>'; 
-            this._leftTotalHtml += totalHtml;
+            totalHtml.push('</tr>'); 
+            this._leftTotalHtml += totalHtml.join('');
 
             // if(this.getTotalSummaryLocation().toLowerCase() == "top"){
             //     rowsHtml = totalHtml + rowsHtml;
@@ -5148,18 +5199,18 @@ sapui6.ui.table.Table.prototype.renderLeftTableRow = function(newDataArr){
         }
     }
                 
-    tbHtml += rowsHtml;
-    tbHtml += ' </tbody>';
-    tbHtml += '</table>';
+    tbHtml.push(rowsHtml.join(''));
+    tbHtml.push(' </tbody>');
+    tbHtml.push('</table>');
 
-    this._leftTotalHtml = totalTbHtml + this._leftTotalHtml + '</tbody></table>';
+    this._leftTotalHtml = totalTbHtml.join('') + this._leftTotalHtml + '</tbody></table>';
     
-    return tbHtml;
+    return tbHtml.join('');
 };
 
 sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
     var data;
-    var rowsHtml = "";
+    var rowsHtml = [];
 
     if(newDataArr != undefined && newDataArr != null) data = newDataArr;
     else data = this.dataArr;
@@ -5229,42 +5280,42 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
     this.displayDataArr = [];
 
 
-    var tbHtml = '';
-    var totalTbHtml = '';
+    var tbHtml = [];
+    var totalTbHtml = [];
 
-    tbHtml += '                 <table id="' + this.gridName + '_dt2" class="sapui6_table_tb sapUiTableCtrl"'; 
-    if(this.isGroup) tbHtml += '    style="table-layout:auto;border-color:' + this._borderColor + ';">'; 
-    else tbHtml += '         style="border-color:' + this._borderColor + ';">'; 
-    tbHtml += '                     <colgroup>';
+    tbHtml.push('                 <table id="' + this.gridName + '_dt2" class="sapui6_table_tb sapUiTableCtrl"'); 
+    if(this.isGroup) tbHtml.push('    style="table-layout:auto;border-color:' + this._borderColor + ';">'); 
+    else tbHtml.push('         style="border-color:' + this._borderColor + ';">'); 
+    tbHtml.push('                     <colgroup>');
 
-    totalTbHtml += '                 <table id="' + this.gridName + '_tt2" class="sapui6_table_tb sapUiTableCtrl"'; 
-    if(this.isGroup) totalTbHtml += '    style="table-layout:auto;border-color:' + this._borderColor + ';">'; 
-    else totalTbHtml += '         style="border-color:' + this._borderColor + ';">'; 
-    totalTbHtml += '                     <colgroup>';
+    totalTbHtml.push('                 <table id="' + this.gridName + '_tt2" class="sapui6_table_tb sapUiTableCtrl"'); 
+    if(this.isGroup) totalTbHtml.push('    style="table-layout:auto;border-color:' + this._borderColor + ';">'); 
+    else totalTbHtml.push('         style="border-color:' + this._borderColor + ';">'); 
+    totalTbHtml.push('                     <colgroup>');
     
     var hLength = this.getColumns().length;
 
     for(var i=this.getFixedColumnIndex()+1 ; i<hLength ; i++){
         if(!(this.isGroup && this.groupHeaderIdx == i)){
             if(this.getColumns()[i].getVisible()) {
-                tbHtml += '          <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />';
-                totalTbHtml += '          <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />';
+                tbHtml.push('          <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />');
+                totalTbHtml.push('          <col style="width:' + this.getColumns()[i].getWidth() + ';display:;" />');
             }else if(!this.getColumns()[i].getVisible()) {
-                tbHtml += '          <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />';
-                totalTbHtml += '          <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />';
+                tbHtml.push('          <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />');
+                totalTbHtml.push('          <col style="width:' + this.getColumns()[i].getWidth() + ';display:none;" />');
             }else {
-                tbHtml += '            <col style="width:' + this.getColumns()[i].getWidth()+ ';" />';
-                totalTbHtml += '            <col style="width:' + this.getColumns()[i].getWidth()+ ';" />';
+                tbHtml.push('            <col style="width:' + this.getColumns()[i].getWidth()+ ';" />');
+                totalTbHtml.push('            <col style="width:' + this.getColumns()[i].getWidth()+ ';" />');
             }
         }
     }
-    tbHtml += '                     </colgroup>';
-    tbHtml += '                     <tbody>';
+    tbHtml.push('                     </colgroup>');
+    tbHtml.push('                     <tbody>');
 
-    totalTbHtml += '                     </colgroup>';
-    totalTbHtml += '                     <tbody>';
+    totalTbHtml.push('                     </colgroup>');
+    totalTbHtml.push('                     <tbody>');
 
-    rowsHtml = '';
+    rowsHtml = [];
     if(this.isGroup){
         var groupCnt = 0;
         var groupSummary = [];
@@ -5280,14 +5331,14 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
             if(row[groupHeaderKey] != preGroupKey){
                 if(i > 0){
                     if(this.isGroupSummary(this.groupHeaderIdx) && this.getShowGroupSummary()){
-                        rowsHtml += '<tr style="background-color:' + this._totalBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_summary' + '">';
+                        rowsHtml.push('<tr style="background-color:' + this._totalBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_summary' + '">');
         
                         for(var j=this.getFixedColumnIndex()+1 ; j<colLength ; j++){
                             if(this.groupHeaderIdx != j){
-                                rowsHtml += this.makeGroupSummary(j,groupCnt,groupSummary);
+                                rowsHtml.push(this.makeGroupSummary(j,groupCnt,groupSummary));
                             }
                         }
-                        rowsHtml += '</tr>'; 
+                        rowsHtml.push('</tr>'); 
                         
                         groupSummary = [];
                         for(var a=0; a<50 ; a++) groupSummary.push(0);
@@ -5295,16 +5346,16 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
                     }
                 }
                 
-                rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_parent' + '">';
+                rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_parent' + '">');
                 
                 for(var j=this.getFixedColumnIndex()+1 ; j<colLength ; j++){
                     if(!this.isGroup || this.groupHeaderIdx != j){
-                        rowsHtml += this.renderTableCell(j, "");
+                        rowsHtml.push(this.renderTableCell(j, ""));
                     }
                 }
                 
 
-                rowsHtml += '</tr>'; 
+                rowsHtml.push('</tr>'); 
                 
                 preGroupKey = row[groupHeaderKey];
             }
@@ -5313,31 +5364,31 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
             if(i%2==0) rowStyle = "sapUiTableRowOdd sapUiTableTr";
             
             if(this.isStartOpen) {
-                rowsHtml += '<tr class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                rowsHtml.push('<tr class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
             }else {
-                rowsHtml += '<tr class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                rowsHtml.push('<tr class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[groupHeaderKey]) + '_child' + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
             }
             
             for(var j=this.getFixedColumnIndex()+1 ; j<colLength ; j++){
                 if(!this.isGroup || this.groupHeaderIdx != j){
-                    rowsHtml += this.renderTableCell(j, "", false, "", tRow, i);
+                    rowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));
                 }
 
                 groupSummary = this.calculateGroupSummary(j,groupSummary,row);
                 totalSummary = this.calculateTotalSummary(j,totalSummary,row);
             }
-            rowsHtml += '</tr>'; 
+            rowsHtml.push('</tr>'); 
         }
 
         if(this.displayRowCount > 0 && this.isGroupSummary(this.groupHeaderIdx) && this.getShowGroupSummary()){
-            rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+            rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
 
             for(var j=this.getFixedColumnIndex()+1 ; j<colLength ; j++){
                 if(this.groupHeaderIdx != j){
-                    rowsHtml += this.makeGroupSummary(j,groupCnt,groupSummary);
+                    rowsHtml.push(this.makeGroupSummary(j,groupCnt,groupSummary));
                 }
             }
-            rowsHtml += '</tr>'; 
+            rowsHtml.push('</tr>'); 
             
             groupSummary = [];
             for(var a=0; a<50 ; a++) groupSummary.push(0);
@@ -5346,17 +5397,17 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
         
         
         if(this.displayRowCount > 0 && this.getShowTotalSummary()){
-            var totalHtml = '';
-            totalHtml += '<tr style="background-color:' + this._totalAllBG + ';">';
+            var totalHtml = [];
+            totalHtml.push('<tr style="background-color:' + this._totalAllBG + ';">');
 
             for(var j=this.getFixedColumnIndex()+1 ; j<colLength ; j++){
                 if(this.groupHeaderIdx != j){
-                    totalHtml += this.makeTotalSummary(j,end-start,totalSummary);
+                    totalHtml.push(this.makeTotalSummary(j,end-start,totalSummary));
                 }
             }
-            totalHtml += '</tr>'; 
+            totalHtml.push('</tr>'); 
 
-            this._rightTotalHtml += totalHtml;
+            this._rightTotalHtml += totalHtml.join('');
             
             totalSummary = [];
             for(var a=0; a<50 ; a++) totalSummary.push(0);
@@ -5397,14 +5448,14 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
                     if(this.getMergeColumnIndex() > -1){
                         if(sumLine > -1 && this.getShowGroupSummary()){
                             for(var j=mergeIndex ; j>=sumLine ; j--){
-                                rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                                rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
                                 for(var k=this.getFixedColumnIndex()+1 ; k<colLength ; k++){
-                                    if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat()));
-                                    else if(k == j) rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'; 
-                                    else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                                    else rowsHtml += this.renderTableCell(k,"");
+                                    if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat())));
+                                    else if(k == j) rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'); 
+                                    else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                                    else rowsHtml.push(this.renderTableCell(k,""));
                                 }
-                                rowsHtml += '</tr>';
+                                rowsHtml.push('</tr>');
 
                                 summaryData[j] = [];
                                 mergeCountData[j] = [];
@@ -5436,18 +5487,18 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
                     }
                 }
 
-                rowsHtml += '<tr rowIndex="' + i + '" class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                rowsHtml.push('<tr rowIndex="' + i + '" class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
 
                 for(var j=this.getFixedColumnIndex()+1 ; j<colLength ; j++){
                     if(sumLine == -1 && j<=endIndex){
-                        rowsHtml += this.renderTableCell(j, "", true);
+                        rowsHtml.push(this.renderTableCell(j, "", true));
                     }else{
-                        rowsHtml += this.renderTableCell(j, "", false, "", tRow, i);  
+                        rowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));  
                     }
 
                     totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                 }
-                rowsHtml += '</tr>';
+                rowsHtml.push('</tr>');
 
                 for(var j=0 ; j<=mergeIndex ; j++) mergePreText[j] = row[this.getColumns()[j].getKey()];
                 
@@ -5455,14 +5506,14 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
 
             if(this.displayRowCount > 0 && this.getMergeColumnIndex() > -1 && this.getShowGroupSummary()){
                 for(var j=mergeIndex ; j>=0 ; j--){
-                    rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                    rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
                     for(var k=this.getFixedColumnIndex()+1 ; k<colLength ; k++){
-                        if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat()));
-                        else if(k == j) rowsHtml += '<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'; 
-                        else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                        else rowsHtml += this.renderTableCell(k,"");
+                        if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/mergeCountData[j][k], this.getColumns()[k].getFormat())));
+                        else if(k == j) rowsHtml.push('<td style="text-align:right;' + this._getBorderStyle(true,true) + '"><div class="sapUiTableCell" style="height:initial;">' + this.getGroupSummaryText() + '</div></td>'); 
+                        else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                        else rowsHtml.push(this.renderTableCell(k,""));
                     }
-                    rowsHtml += '</tr>';
+                    rowsHtml.push('</tr>');
 
                     summaryData[j] = [];
                     mergeCountData[j] = [];
@@ -5472,8 +5523,12 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
             }
         }else if(this.getTreeColumnIndex() > -1){
             var groupCnt = 0;
-            var group_icon = this._getThemedIcon("ico12_closed_plus.gif");
-            if(this.getTreeStartOpen()) group_icon = this._getThemedIcon("ico12_open_minus.gif");
+            var group_icon = IconPool.getIconInfo('sap-icon://expand');
+            var bOpen = true;
+            if(this.getTreeStartOpen()) {
+                group_icon = IconPool.getIconInfo('sap-icon://collapse');
+                bOpen = false;
+            }
             
             var groupSummary = [];
             for(var a=0; a<50 ; a++) groupSummary.push(0);
@@ -5500,14 +5555,14 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
                     for(var j=this.getTreeColumnIndex() ; j>=changeTreeIdx ; j--){
                         if(i>start && this.getShowGroupSummary()){
                             if(this.getGroupSummaryLocation() == "Bottom"){
-                                rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                                rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
 
                                 for(var k=iFixedColumnIndex+1 ; k<colLength ; k++){
-                                    if(this.getColumns()[k].getGroupSummary() == "average") rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat()));
-                                    else if(this.getColumns()[k].getGroupSummary() != "none") rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                                    else rowsHtml += this.renderTableCell(k,"");
+                                    if(this.getColumns()[k].getGroupSummary() == "average") rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat())));
+                                    else if(this.getColumns()[k].getGroupSummary() != "none") rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                                    else rowsHtml.push(this.renderTableCell(k,""));
                                 }
-                                rowsHtml += '</tr>';
+                                rowsHtml.push('</tr>');
                             }
 
                             var groupSummaryTdData = {};
@@ -5536,29 +5591,30 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
                         
                         var rowK = this.getColumns()[k].getKey();
 
-                        if(k == 0) rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">';
-                        else if(this.getTreeStartOpen()) rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="open" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">';
-                        else rowsHtml += '<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="close" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">';
+                        if(k == 0) rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">');
+                        else if(this.getTreeStartOpen()) rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="open" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">');
+                        else rowsHtml.push('<tr class="group" style="background-color:' + this._groupBG + ';" tree_status="close" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0])+ '" ' + this.getTreeKey(row,k) + ' level="' + String(k) + '">');
 
                         for(var j=iFixedColumnIndex+1 ; j<k ; j++){
-                            rowsHtml += this.renderTableCell(j, "");
+                            rowsHtml.push(this.renderTableCell(j, ""));
                         }
                         
                         if(changeTreeIdx > iFixedColumnIndex){
-                            rowsHtml += '<td style="';
-                            rowsHtml += 'text-align:left;' + this._getBorderStyle(true,true) + 'vertical-align:middle;cursor:pointer;';
-                            rowsHtml += '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup2(\'' + this.gridName + '_' + this.trim(row[row0]) + '\',' + k + ',' + i + ',event)' + '">';
-                            rowsHtml += '<img id="' + this.getId() + '-tree-fold-icon-' + i + '" src="' + group_icon + '">' + "&nbsp;" + this.changeFormat(row[rowK], this.getColumns()[k].getFormat());
-                            rowsHtml += '</td>';
+                            rowsHtml.push('<td style="');
+                            rowsHtml.push('text-align:left;' + this._getBorderStyle(true,true) + 'vertical-align:middle;cursor:pointer;');
+                            rowsHtml.push('" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').foldGroup2(\'' + this.gridName + '_' + this.trim(row[row0]) + '\',' + k + ',' + i + ',event)' + '">');
+                            rowsHtml.push('<span id="' + this.getId() + '-tree-fold-icon-' + i + '" data-rv-open="' + bOpen + '" role="presentation" aria-hidden="true" data-sap-ui-icon-content="' + group_icon.content + '" class="sapMSLIImgIcon sapUiIcon sapUiIconMirrorInRTL" style="font-family:\'SAP-icons\'"></span>');
+                            rowsHtml.push('&nbsp;' + this.changeFormat(row[rowK], this.getColumns()[k].getFormat()));
+                            rowsHtml.push('</td>');
                         }
                         
                         var startBlank = k;
                         if(k < iFixedColumnIndex) startBlank = iFixedColumnIndex;
                         for(var j=startBlank+1 ; j<colLength ; j++){
-                            rowsHtml += this.renderTableCell(j, "");
+                            rowsHtml.push(this.renderTableCell(j, ""));
                         }
          
-                        rowsHtml += '</tr>'; 
+                        rowsHtml.push('</tr>'); 
                     }
                 }
                 preGroupKeys = currentGroupKeys;
@@ -5568,9 +5624,9 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
                 if(i%2==0) rowStyle = "sapUiTableRowOdd sapUiTableTr";
 
                 if(this.getTreeStartOpen()) {
-                    tRowsHtml += '<tr tree_status="open" class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                    tRowsHtml.push('<tr tree_status="open" class="' + rowStyle +'" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                 }else {
-                    tRowsHtml += '<tr tree_status="close" class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                    tRowsHtml.push('<tr tree_status="close" class="' + rowStyle + '" style="display:none;" name="' + this.gridName + '_' + this.trim(row[row0]) + '" ' + this.getTreeKey(row,k) + ' level="' + String(this.getTreeColumnIndex()+1) + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
                 }
 
                 for(var j=0 ; j<=this.getTreeColumnIndex() ; j++){  
@@ -5594,25 +5650,25 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
                 }
 
                 for(var j=iFixedColumnIndex+1 ; j<colLength ; j++){  
-                    tRowsHtml += this.renderTableCell(j, "", false, "", tRow, i);
+                    tRowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));
 
                     totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                 }
-                tRowsHtml += '</tr>'; 
+                tRowsHtml.push('</tr>'); 
             }
 
-            rowsHtml += tRowsHtml;
+            rowsHtml.push(tRowsHtml.join(''));
             if(this.getRows().length > 0 && this.getTreeColumnIndex() > -1 && this.getShowGroupSummary()){
                 for(var j=this.getTreeColumnIndex() ; j>=0 ; j--){
                     if(this.getGroupSummaryLocation() == "Bottom"){
-                        rowsHtml += '<tr style="background-color:' + this._totalBG + ';">';
+                        rowsHtml.push('<tr style="background-color:' + this._totalBG + ';">');
 
                         for(var k=iFixedColumnIndex+1 ; k<colLength ; k++){
-                            if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat()));
-                            else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml += this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat()));
-                            else rowsHtml += this.renderTableCell(k,"");
+                            if(this.getColumns()[k].getGroupSummary() == "average")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k]/treeCountData[j][k], this.getColumns()[k].getFormat())));
+                            else if(this.getColumns()[k].getGroupSummary() != "none")rowsHtml.push(this.renderTableCell(k, this.changeFormat(summaryData[j][k], this.getColumns()[k].getFormat())));
+                            else rowsHtml.push(this.renderTableCell(k,""));
                         }
-                        rowsHtml += '</tr>';
+                        rowsHtml.push('</tr>');
                     }
                     
                     var groupSummaryTdData = {};
@@ -5644,27 +5700,27 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
 
                 if(this.getMergeColumnIndex() > -1) rowStyle = "sapUiTableRowOdd sapUiTableTr";
                 
-                rowsHtml += '<tr class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">';
+                rowsHtml.push('<tr class="' + rowStyle + '" onclick="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseclick(event,' + i + ');" onmouseover="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseover(event,' + i + ');" onmouseout="sap.ui.getCore().byId(\'' + this.getId() + '\').mouseout(event,' + i + ');" origin_class="' + rowStyle + '">');
 
                 for(var j=this.getFixedColumnIndex()+1 ; j<colLength ; j++){
-                    rowsHtml += this.renderTableCell(j, "", false, "", tRow, i);
+                    rowsHtml.push(this.renderTableCell(j, "", false, "", tRow, i));
                     
                     totalSummary = this.calculateTotalSummary(j,totalSummary,row);
                 }
-                rowsHtml += '</tr>'; 
+                rowsHtml.push('</tr>'); 
             }
         }
 
         if(this.displayRowCount > 0 && this.getShowTotalSummary()){
-            var totalHtml = '';
-            totalHtml += '<tr style="background-color:' + this._totalAllBG + ';">';
+            var totalHtml = [];
+            totalHtml.push('<tr style="background-color:' + this._totalAllBG + ';">');
 
             for(var j=this.getFixedColumnIndex()+1 ; j<colLength ; j++){
-                totalHtml  += this.makeTotalSummary(j,end-start,totalSummary);
+                totalHtml.push(this.makeTotalSummary(j,end-start,totalSummary));
             }
-            totalHtml  += '</tr>'; 
+            totalHtml.push('</tr>'); 
 
-            this._rightTotalHtml = totalHtml;
+            this._rightTotalHtml = totalHtml.join('');
             
             // if(this.getTotalSummaryLocation().toLowerCase() == "top"){
             //     rowsHtml = totalHtml + rowsHtml;
@@ -5680,14 +5736,14 @@ sapui6.ui.table.Table.prototype.renderRightTableRow = function(newDataArr){
         }
     }
     
-    rowsHtml = tbHtml + rowsHtml;
+    rowsHtml = [tbHtml.join('') + rowsHtml.join('')];
 
-    rowsHtml += '                       </tbody>';
-    rowsHtml += '                   </table>';
+    rowsHtml.push('                       </tbody>');
+    rowsHtml.push('                   </table>');
 
-    this._rightTotalHtml = totalTbHtml + this._rightTotalHtml + '</tbody></table>';
+    this._rightTotalHtml = totalTbHtml.join('') + this._rightTotalHtml + '</tbody></table>';
     
-    return rowsHtml;
+    return rowsHtml.join('');
 };
 
 sapui6.ui.table.Table.prototype.renderTreeGroupSummary = function(){
@@ -6651,11 +6707,14 @@ sapui6.ui.table.MenuFilterItem.prototype.render = function(oRenderManager, oItem
     rm.write("><div class=\"sapUiMnuItmL\"></div>");
     
     rm.write("<div class=\"sapUiMnuItmIco\">");
-    if (oItem.getIcon()) {
-        rm.write("<img");
-        rm.writeAttributeEscaped("src", oItem.getIcon());
-        rm.write("/>");
+    // if (oItem.getIcon()) {
+    //     rm.write("<img");
+    //     rm.writeAttributeEscaped("src", oItem.getIcon());
+    //     rm.write("/>");
 
+    // }
+    if (oItem.getIcon()) {
+        rm.writeIcon(oItem.getIcon(), null, {title: null});
     }
     rm.write("</div>");
 
